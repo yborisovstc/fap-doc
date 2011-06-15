@@ -1,0 +1,410 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd">
+
+
+<!--
+To transform to html:
+xsltproc /usr/share/xml/docbook/stylesheet/nwalsh/html/onechunk.xsl using_sm_sync_set_in_swd.xml
+-->
+
+
+<article> <title>Using of Synchronous Discrete Time System paradigm in software development</title>
+    <articleinfo>
+	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
+	    <email>yuri.borisov.v@gmail.com</email></author> 
+
+	<releaseinfo>Ver.0.03 at 09-Dec-2010</releaseinfo>
+
+	<revhistory>
+	    <revision> <revnumber>0.01</revnumber> <date>10-Mar-2010</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Initial version</revremark> </revision>
+	    <revision> <revnumber>0.02</revnumber> <date>21-May-2010</date> <authorinitials>Anna Lemekhova</authorinitials>
+		<revremark>Added <xref linkend="sec_rs_flipflop"/></revremark> </revision>
+	    <revision> <revnumber>0.03</revnumber> <date>09-Dec-2010</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Added <xref linkend="sec_snails"/></revremark> </revision>
+	</revhistory>
+    </articleinfo>
+
+    <bibliolist> <title>References</title>
+	<biblioentry id="ref_scraft_ru_auto"> <abbrev>SCRAFT_RU_AUTO</abbrev>
+	    <productname><ulink url="http://workbort.ru/auto.shtml.htm"/></productname>
+	    <title>Using of finite automata in SW disign [RU]</title> </biblioentry>
+
+	<biblioentry id="ref_sc_lubch_abp_1"> <abbrev>SC_LUBCH_ABP_1</abbrev>
+	    <productname><ulink url="http://www.softcraft.ru/design/katech.shtml"/></productname>
+	    <title>Любченко В.C., Конечно-автоматная технология программирования</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
+	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_dds"> <abbrev>WIKI_DDS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Discrete-time_dynamical_system"/></productname>
+	    <title>Discrete time Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_ds_org"> <abbrev>DS_ORG</abbrev>
+	    <productname><ulink url="http://www.dynamical-systems.org/"/></productname>
+	    <title>dynamical-systems.org</title> </biblioentry>
+
+	<biblioentry id="ref_lyubch_rs_trig"> <abbrev>LYUBCH_RS_TRIG</abbrev>
+	    <productname><ulink url="http://workbort.ru/auto/ka/rsm/rsm01.shtml.htm"/></productname>
+	    <title>Любченко В.С.  Искусство программирования ... RS-триггера?! </title> </biblioentry>
+
+	<biblioentry id="ref_wiki_rs_trig"> <abbrev>WIKI_RS_TRIG</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Flip-flop_(electronics)"/></productname>
+	    <title>Flip-flop (electronics). From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_fsa"> <abbrev>WIKI_FSA</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Finite_state_machine"/></productname>
+	    <title>Finite-state machine. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_aut_theory"> <abbrev>WIKI_AUT_THEORY</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Automata_theory"/></productname>
+	    <title>Automata theory. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_cass_intr_des"> <abbrev>CASS_INTR_DES</abbrev>
+	    <productname><ulink url="http://books.tr200.ru/v.php?id=242379"/></productname>
+	    <title>Christos Cassandras, Stefane Lafortune. Introduction to Discrete Event System. </title> </biblioentry>
+
+	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap"/></productname>
+	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
+
+	<biblioentry id="ref_fap_demo_snails"> <abbrev>FAP_DEMO_SNAILS</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap/fap-snails"/></productname>
+	    <title><xref linkend="gls_fap"/> demo application "Snails" git repository</title> </biblioentry>
+    </bibliolist>
+
+
+    <glossary> <title>Glossary</title> 
+	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
+		    Ref <xref linkend="ref_wiki_ds"/> for base info.</para> <glossseealso otherterm="gls_dtds"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dds"><glossterm>DDS</glossterm> <acronym>DDS</acronym>
+	    <glossdef> <simpara>Discrete Dynamic System. One more term for <xref linkend="gls_dtds1"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_des"><glossterm>DES</glossterm> <acronym>DES</acronym>
+	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
+		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dso_mbp"><glossterm>DSO-MBP</glossterm> <acronym>DSO-MBP</acronym>
+	    <glossdef> <simpara>Dynamic System Oriented Model Based Programming </simpara> 
+		<glossseealso otherterm="gls_simulink"></glossseealso> </glossdef> </glossentry>
+
+	<glossentry id="gls_distr_state_aut"><glossterm>DSA</glossterm> <acronym>DSA</acronym>
+	    <glossdef> <simpara>Distributed State Automation.</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_finite_automata"><glossterm>FSA</glossterm> <acronym>FSA</acronym>
+	    <glossdef> <simpara>Finite State automata</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_fap"><glossterm>FAP</glossterm> <acronym>FAP</acronym>
+	    <glossdef> <simpara>Finite Automata Paradigm framework. The framework for SW development with using of 
+		    <xref linkend="gls_finite_automata"/>paradigm.</simpara> 
+		<simpara>Ref <xref linkend="ref_fap_git"/> for source code repository</simpara></glossdef> </glossentry>
+
+	<glossentry id="gls_simulink"><glossterm>Simulink</glossterm> <acronym>Simulink</acronym>
+	    <glossdef> <simpara>The modelling tool of Discrete Dynamic Systems</simpara> </glossdef> </glossentry>
+    </glossary>
+
+    <sect1 id="sec_intro"><title>Introduction</title>
+	<simpara>Discrete time dynamic system (<xref linkend="gls_dds"/>) is one of the paradigms that can be used for SW development.</simpara>
+	<simpara> The key specifics of this paradigm are:</simpara>
+	<itemizedlist>
+	    <listitem>Native parallelism - the model consists of interconnected automata</listitem>
+	    <listitem>Events based approach - the system variables are updated only on event received </listitem>
+	</itemizedlist>
+	<simpara>The paradigm has tough relation to concept of <xref linkend="gls_finite_automata"/>.</simpara>
+    </sect1>
+
+    <sect1><title>Discrete Dynamic System introduction</title>
+	<simpara>Let's consider the concept of <xref linkend="gls_dds"/> first. 
+	    The generic discrete time system can be considered as a "black box" with <emphasis>m</emphasis> 
+	    input variables <emphasis>x</emphasis> and <emphasis>k</emphasis> output variables <emphasis>z</emphasis>, 
+	    which value can be changed in the ticks of discrete time <emphasis>i</emphasis>:</simpara>
+	<simpara><imageobject> <imagedata fileref="fig_system_1.png"/> </imageobject></simpara>
+	<simpara>Also we can introduce internal variables (states) <emphasis>s(k,i)</emphasis> that determine system behaviour. 
+	    Discrete time <emphasis>i</emphasis> is unite for the system and "synchronyze" 
+	    the sets of inputs, outputs and states. So this system can be called "synchronous"</simpara>
+	<simpara>One more resriction is that the set of inputs, states, and output values (alphabet) is finite. </simpara>
+
+	<simpara>Refer to <xref linkend="ref_wiki_dds"/> section "General definition" for the formal definition.</simpara>
+	<simpara>A discrete time dynamical system can be represented by the tuple <emphasis Role="strong">(T, S, F, G, X, Z, s0)</emphasis> 
+	    where, </simpara>
+	<simplelist>
+	    <member><emphasis>T</emphasis> is a discrete time </member>
+	    <member><emphasis>S</emphasis> is a set called state space</member>
+	    <member><emphasis>X</emphasis> is the  set of inputs values</member>
+	    <member><emphasis>Z</emphasis> is the  set of output values</member>
+	    <member><emphasis>s0</emphasis> is an initial state of the system</member>
+	    <member><emphasis>G</emphasis> is a function that called "output function"</member>
+	    <member><emphasis>F</emphasis> is a function that called "evolution function"</member>
+	    <member> <informalequation id="eq_3"><mathphrase>F : U ⊂ X ⨯ S ⟶ S</mathphrase></informalequation> </member>
+	</simplelist>
+	<simpara>Another representation form of DDS is:</simpara>
+	<simplelist>
+	    <member>
+		<informalequation id="eq_4" xreflabel="(4)"><literallayout><mathphrase>s(i) = F(i, s(i-1), x(i))</mathphrase>     <phrase>(4)</phrase></literallayout>
+		</informalequation> </member>
+		<member> 
+		    <informalequation id="eq_5" xreflabel="(5)"><literallayout><mathphrase>z(i) = G(i, s(i), x(i))</mathphrase>     <phrase>(5)</phrase></literallayout>
+		</informalequation> </member>
+	</simplelist>
+	<simpara>In many cases the status <emphasis>s</emphasis>, inputs <emphasis>x</emphasis>, and outputs <emphasis>z</emphasis> can be represented 
+	    by the vectors:</simpara>
+	<informalequation><mathphrase>s = [s0, s1, ..., sn] </mathphrase></informalequation>
+	<informalequation><mathphrase>x = [x0, x1, ..., xm] </mathphrase></informalequation>
+	<informalequation><mathphrase>z = [z0, z1, ..., zk] </mathphrase></informalequation>
+	<simpara>The element of status will be called "state variable" or "state" below while 
+	    for the vector <emphasis>s</emphasis> will be term "system state" used</simpara>
+	<simpara>This can be represented by the scheme below:</simpara>
+	<simpara></simpara>
+	<figure id="fig_dds_repr1"><title>DDS scheme</title><imageobject> <imagedata fileref="fig_system_str.png"/> </imageobject></figure>
+	<simpara> </simpara>
+    </sect1>
+
+    <sect1><title>A short view to finite automata</title>
+	<simpara>Ref <xref linkend="ref_wiki_aut_theory"/> for WiKi article with math base of <xref linkend="gls_finite_automata"/></simpara>
+	<simpara>FSA can be considered as a class of synchronous system that is characterised by six-tuple:</simpara>
+	<simpara>G = (X, Y, S, f, g, s0)</simpara>
+	<simpara>where</simpara>
+	<itemizedlist>
+	    <listitem>X - input alphabet</listitem>
+	    <listitem>Z - output alphabet</listitem>
+	    <listitem>S - set of states</listitem>
+	    <listitem>f - transion function</listitem>
+	    <listitem>g - output function</listitem>
+	    <listitem>s0 - initial state</listitem>
+	</itemizedlist>
+	<simpara>and</simpara>
+	<simplelist>
+	    <member>
+		<literallayout><informalequation id="eq_1">s(i) = f(x(i), s(i-1)                <phrase id="eq_1_label">(1)</phrase></informalequation></literallayout>
+	    </member>
+	    <member>
+		<literallayout><informalequation id="eq_2">z(i) = g(x(i), s(i))                 <phrase id="eq_2_label">(2)</phrase></informalequation></literallayout>
+	    </member>
+	</simplelist>
+
+	<simpara>It can be noted that the term "state" is used differently for FSA and DDS: for FSA it often means the element of states set, i.e state value, 
+	    while for DDS it ofter means "state variable"</simpara>
+    </sect1>
+
+    <sect1><title>SW design approach using DDS and FSA</title>
+	<simpara>Consider SW system design based on DDS representation <xref linkend="fig_dds_repr1"/></simpara>
+	<simpara>Basing on representation of whole system state <emphasis>s</emphasis> as a vector of system state elements variables
+	    <emphasis>sk</emphasis>, the equation <xref linkend="eq_4"/> can be written via set of equations for each variable:</simpara>
+	<informalequation id="eq_6" xreflabel="(6)">
+	    <literallayout><mathphrase>sk(i) = Fk(i, sk(i-1), x(i))</mathphrase>     <phrase id="eq_6_label">(6)</phrase></literallayout> </informalequation> 
+	<simpara>where</simpara>
+	<itemizedlist>
+	    <listitem>Fk - transition function for state variable sk</listitem>
+	</itemizedlist>
+	
+	<simpara>So the whole system can be factored into the set of particular state variables with assosiated transition functions</simpara>
+	<simpara>Lets also assume that system can be created as a set of subsystems, that can interact one to another, i.e be connected.</simpara>
+	<simpara>As can be seen from the <xref linkend="fig_dds_repr1"/> each state variables is finite automata where set of state is the 
+	    set of possible values of state variable, and input events are the state variable inputs values. </simpara>
+	<simpara>Then the whole scheme can be created with two kinds of elements - state variable and object (sybsystem):</simpara>
+	<itemizedlist>
+	<listitem>State variable includes the variable, transition function, and set of inputs</listitem>
+	<listitem>Object includes one or more state variables, one or more sub-objects and connections between them</listitem>
+	</itemizedlist>
+	<simpara>Let's illustrate the approach using the examples of systems implementation. To simplify analysis of the examples we can
+	use graphic notation for the object and state.</simpara>
+	<simpara>Graphic notation for the state can be as:</simpara>
+	<simpara><imageobject> <imagedata fileref="fig_state_notation_1.png"/> </imageobject></simpara>
+	<simpara>State notation includes:</simpara>
+	<itemizedlist>
+	    <listitem>State name - uniquely identifies the state within an object</listitem>
+	    <listitem>State type - uniquely identifies the type of state. Actually it identifies the type of data, for instance Boolean, etc.</listitem>
+	    <listitem>State input name-  uniquely identifies input, the name used within transtion function. Also the type of input are specified.</listitem>
+	    <listitem>Transion function - is specified via identificator and/or the description of function</listitem>
+	</itemizedlist>
+	<simpara>The scheme of system then consists of states and "links" that connect state to other state depending on it.</simpara>
+	<simpara>In order to simplify object as a syblystem we can separate all the states of the object into three groups:</simpara>
+	<itemizedlist>
+	    <listitem>Regular states - or internal states, hidden for access from other sybsystem</listitem>
+	    <listitem>Input states - can be accessed from out of object and can be set as dependent on other object output states</listitem>
+	    <listitem>Outpus states - can be accesses form out of object and can be used as states 
+		from which connected object's input states are dependent on</listitem>
+	</itemizedlist>
+    </sect1>
+
+    <sect1 id="sec_fap"><title>Framework for DDS paradigm</title>
+	<simpara>There was the framework <xref linkend="gls_fap"/> created for the purpose of modelling and analysing DDS paradigm in SW development. Ref
+	    <xref linkend="ref_fap_git"/> for source code repository</simpara>
+	<simpara>Below is the structure and APIs of the FAP libraries outlined:</simpara>
+	<figure id="fig_fap_clsdgm"><imageobject> <imagedata fileref="fig_fap_clsdgm.png"/> </imageobject></figure>
+	<simpara>The structure of system is described by system spec - XML document, that specified the sybsystem and connections between them.</simpara>
+	<simpara>FAP libraries were used for develop examples given in the current article.</simpara>
+    </sect1>
+
+    <sect1 id="sec_snails"><title>Examle: Snails</title>
+	<simpara>Let's illustrate the idea of FSA using with the example - simple application where the race of three snails simulated. 
+	    The snail in this action does two thinks: moving and eating. The leader in the race gets more food so increases his weigth. But the more weigth is snail,
+	the less velocity he moves.</simpara>
+    <simpara>Let's simulate state by the subsystem, containing state variables for the weight and coordinate on race-track.</simpara>
+    <figure id="fig_snails_snail_str"><imageobject> <imagedata fileref="fig_snails_snail_str.png"/> </imageobject></figure>
+    <simpara>The whole system includes three snails and connection between them. The diagram below shows the system structure for two snails.</simpara>
+    <figure id="fig_snails_str"><imageobject> <imagedata fileref="fig_snails_str.png"/> </imageobject></figure>
+    <simpara>Let's create FAP spec for the system:</simpara>
+    <example id="exm_snails_spec"><title>Snails spec</title>
+	<programlisting>
+	    <![CDATA[ 
+	    <caeenv>
+		<object type="test" id="main_test">
+
+		    <!-- *************************** SNAIL BASE *******************************  -->
+		    <object type="none" id="snail" quiet="yes"> 
+			<logspec  event="cre"> <logdata id="new"/> </logspec>
+
+			<state type="StUint32" id="mass" access="Inp" transf="trans_mass" init="2"> 
+			    <logspec event="upd"> <logdata id="new"/> </logspec> 
+			    <inp id="coord_self"/> <inp id="coord_others.*"/> </state>
+
+			<state type="StUint32" id="coord" len="4" access="Out" transf="trans_coord" init="0"> 
+			    <logspec event="upd"> <logdata id="cur"/> <logdata id="new"/> </logspec> 
+			    <inp id="self"/> <inp id="mass"/> </state>
+
+			<conn state="mass"> <dep inp="coord_self" conn="coord"/> </conn>
+			<conn state="coord"> <dep inp="self" conn="coord"/> <dep inp="mass" conn="mass"/> </conn>
+		    </object> <!-- snail -->
+
+		    <!-- *************************** SNAIL INSTANCES *******************************  -->
+		    <object type="snail" id="snail_1" > <state mut="Change" id="mass" init="7"/></object>
+		    <object type="snail" id="snail_2" > <state mut="Change" id="mass" init="3"/></object>
+		    <object type="snail" id="snail_3" > <state mut="Change" id="mass" init="16"/></object>
+
+
+		    <!-- *************************** CONNECTIONS *******************************  -->
+		    <conn state="snail_1.mass"> <dep inp="coord_others.1" conn="snail_2.coord"/> <dep inp="coord_others.2" conn="snail_3.coord"/> </conn>
+		    <conn state="snail_2.mass"> <dep inp="coord_others.1" conn="snail_1.coord"/> <dep inp="coord_others.2" conn="snail_3.coord"/> </conn>
+		    <conn state="snail_3.mass"> <dep inp="coord_others.1" conn="snail_1.coord"/> <dep inp="coord_others.2" conn="snail_2.coord"/> </conn>
+
+		</object> <!-- test -->
+	    </caeenv>
+	    ]]>
+	</programlisting>
+    </example>
+    <simpara>We also can implement transition functions for snail coordinate and mass:</simpara>
+    <example>
+	<programlisting>
+	    <![CDATA[
+void update_mass(CAE_Object* /*aObject*/, CAE_State* aState)
+{
+    CAE_TState<TUint32>& self = (CAE_TState<TUint32>&) *aState;
+    const TUint32& coord_s = self.Inp("coord_self");
+
+    TInt feed = KMaxFeed;
+    for (TInt i = 1; self.Input("coord_others", i) != NULL; i++) {
+	const TUint32& coord_o = self.Inp("coord_others", i);
+	if (coord_o > coord_s && feed > 0)
+	    feed--;
+    }
+    TUint32 newmass = ~self + feed - 1;
+    self = (newmass > KMass_Max) ? KMass_Max: ((newmass < KMass_Min) ? KMass_Min : newmass);
+}
+
+void update_coord(CAE_Object* /*aObject*/, CAE_State* aState)
+{
+    CAE_TState<TUint32>& self = (CAE_TState<TUint32>&) *aState;
+    const TUint32& mass_s = self.Inp("mass");
+    self = ~self + KMass_Max/mass_s;
+}
+	    ]]>
+	</programlisting>
+    </example>
+    <simpara>And finally we create automata environment, and run the automata time</simpara>
+    <programlisting>
+	iEnv = CAE_Env::NewL(NULL, tinfos, KSpecFileName, 1, NULL, KLogFileName);
+    </programlisting>
+    <simpara>The source code of application can be accessed on repository <xref linkend="ref_fap_demo_snails"/></simpara>
+
+</sect1>
+
+<sect1 id="sec_rs_flipflop"><title>Example: SR flip-flop</title>
+    <simpara>Lets simulate work of SR flip-flop <xref linkend="ref_wiki_rs_trig"/> using DDS.</simpara> 
+    <simpara>It is possible to construct SR flip-flop using either two NOR or two NAND gate.</simpara>
+    <simpara>The SR NAND gate latch:</simpara>
+    <simpara></simpara>
+    <simpara>
+	<imageobject> <imagedata fileref="fig_sr_01.png" align="middle"/> sssssssss </imageobject>
+    </simpara>
+    <simpara>The boolean formula:
+	<simplelist type='vert'><member>Q = !(!S &amp; NQ)</member><member>NQ = !(!R &amp; Q)</member></simplelist>
+    </simpara>
+    <simpara>R (reset) and S (set) are known as external inputs. 
+	Q is known as external output and NQ is its inverse output.
+	There is feedback from each output to one of gate inputs.
+	The problematic of SR flip-flop programming is related to these feedback,
+	as additional synchronization actions to perform calculation are required.</simpara>
+    <simpara>When having initial input values at t=t0 (Q(t0)=Q0, NQ(t0)=NQ0, S(t0)=S0, R(t0)=R0), 
+	the next step results at t=t1 can be obtained after applying boolean NAND operation twice:
+	<simplelist type='vert' columns='4'>
+	    <member>Step 1:</member> <member/>
+	    <member>Qint = !(!S0 &amp; NQ0)</member><member>NQint = !(!R0 &amp; Q0)</member>
+	    <member>Step 2:</member> <member/>
+	    <member>Q1 = !(!S0 &amp; NQint)</member><member>NQ1 = !(!R0 &amp; Qint)</member>
+	</simplelist>
+    </simpara>
+    <simpara>Generally there are four possible combinations of (Q, NQ). 
+	But from trigger point of view only (0,1) and (1,0) are correct. 
+	They are known as stable states (state (Q1, NQ1)). 
+	(1,1) is an intermediate (Qint, NQint) unstable state. 
+	All transitions between stable states are performed through intermediate state. 
+	This is push-pull (in-out) trigger scheme. 
+	The diagram below <xref linkend="ref_lyubch_rs_trig"/> describes the process and conditions of states switching:
+    </simpara>
+    <simpara/>
+    <simpara><imageobject> <imagedata fileref="fig_sr_03.png"/> </imageobject></simpara>
+    <simpara>In <xref linkend="ref_lyubch_rs_trig"/> the pros and cons of several SR flip-flop models are described, 
+	among them there are sequential flowchart model,
+	parallel synchronous FSA model (our FAPWS is exactly such case) 
+	and asynchronous Petri net model. 
+	It will take time and efforts for an uninformed reader to investigate all these schemes and graphs. 
+	Petri net is far-fetched here, of course it is more suitable for asynchronous systems.
+	So it makes no sense to evaluate it.</simpara>
+    <simpara>When having no additional tools (except C or C++) I would choose sequential variant with explicit intermediate state (SIS) 
+	or "if" sequential option <xref linkend="ref_lyubch_rs_trig"/>: </simpara> 
+    <simpara><imageobject> <imagedata fileref="fig_sr_04.png"/> </imageobject></simpara>
+    <simpara><emphasis>Digression. Some simplification can be made:
+	    <simplelist type='vert'><member>
+		    Q1 = !(!S0 &amp; NQint) = !(!S0 &amp; (!(!R0 &amp; Q0))) = S0 | !R0 &amp; Q0 </member></simplelist>
+	    In this case we don't need NQ at all, Q is defined by S, R and previous Q. But this is another model.
+    </emphasis></simpara>
+    <simpara>But having such tool as FAPWS library, I would prefer it. The reasons are the following:</simpara>
+    <itemizedlist>
+	<listitem>operation decrease: if in intermediate state S or/and R is changed, they will be used in generation. 
+	    On one hand we miss stable state, but on the other hand we reduce number of operations. 
+	    Let's illustrate this with input sequences:
+	    <emphasis><simplelist type='vert'><member>(Q0,NQ0)=(1,0) SR_1= 01, 01, 01, 01, 01, 01, 01, 01, 10</member>
+		    <member>FAPWS: (1,0) 01 -> (1,1) 01 -> (0,1) 01 -> (0,1) 10 -> (1,1) 10 -> (1,0) 10</member>
+		    <member>SIS: [(1,0) 01 -> (1,1) 01 -> (0,1) 01] ->   [ (0,1) 01 -> (0,1) 01]  7 times   -> [(0,1) 10 -> (1,1) 10 -> (1,0) 10]</member>
+	    </simplelist></emphasis>
+	    and:
+	    <emphasis><simplelist type='vert'><member>(Q0,NQ0)=(1,0) SR_2 = 01, 10</member>
+		    <member>FAPWS: (1,0) 01 -> (1,1) 10 -> (1,0) 10 - state is missed here</member>
+		    <member>SIS: [(1,0) 01 -> (1,1) 01 -> (0,1) 01] ->  [ (0,1) 10 -> (1,1) 10 -> (1,0) 10]</member>
+	    </simplelist></emphasis>
+	    State skipping can be easily avoided by 2 step operations after each S or/and R setting.
+	</listitem>
+	<listitem>code decrease is achieved by:
+	    <orderedlist numeration="loweralpha">
+		<listitem>xml generation. All you need is xml spec and two transition functions registered in environment object</listitem>
+		<listitem>no checks for data change is required</listitem>
+	    </orderedlist>
+	</listitem>
+	<listitem>clear notation, support states of standard encapsulated data, states of user defined data can be added
+	    <simpara>The SR DDS notation:</simpara>
+	    <simpara><imageobject> <imagedata fileref="fig_sr_02.png"/> </imageobject></simpara></listitem>
+    </itemizedlist>
+
+    <simpara>The conclusion is that DDS and its realization FAPWS library can be useful (and simplify our life) even in such a trivial example as SR flip-flop.</simpara>
+</sect1>
+
+</article>

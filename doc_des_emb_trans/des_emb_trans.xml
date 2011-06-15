@@ -1,0 +1,363 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd">
+
+
+<article> <title>Using embedded transtion in Discrete Event System language interpreter</title>
+    <articleinfo>
+	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
+	    <email>yuri.borisov.v@gmail.com</email></author> 
+
+	<abstract>
+	    <simpara>The compact functional language was offered for using in discrete event system.
+		The language can be used for specifying system variables transition function.</simpara>
+	    <simpara>The design and implementation of the language interpreter is outlined. It is shown that
+		embedding transition language interpreter into the base discrete event system interpreter creates 
+		convenient environment for specifying and running the systems</simpara>
+	</abstract>
+
+	<releaseinfo>Ver.0.02 at 07-Apr-2011</releaseinfo>
+
+	<revhistory>
+	    <revision> <revnumber>0.01</revnumber> <date>10-Mar-2011</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Initial version</revremark> </revision>
+	    <revision> <revnumber>0.02</revnumber> <date>07-Apr-2011</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Added <xref linkend="sec_impl"/></revremark> </revision>
+	</revhistory>
+    </articleinfo>
+
+    <bibliolist> <title>References</title>
+	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
+	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_dds"> <abbrev>WIKI_DDS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Discrete-time_dynamical_system"/></productname>
+	    <title>Discrete time Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_fsa"> <abbrev>WIKI_FSA</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Finite_state_machine"/></productname>
+	    <title>Finite-state machine. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_cass_intr_des"> <abbrev>CASS_INTR_DES</abbrev>
+	    <productname><ulink url="http://books.tr200.ru/v.php?id=242379"/></productname>
+	    <title>Christos Cassandras, Stefane Lafortune. Introduction to Discrete Event System. </title> </biblioentry>
+
+	<biblioentry id="ref_ybor_using_des"> <abbrev>YBOR_USING_DES_</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap/doc_dsa_in_swd"/></productname>
+	    <title>Y.Borisov, A.Lemekhova. Using of Synchronous Discrete Time System paradigm in software development</title> </biblioentry>
+
+	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap"/></productname>
+	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
+
+	<biblioentry id="ref_fap_demo_snails"> <abbrev>FAP_DEMO_SNAILS</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap/fap-snails"/></productname>
+	    <title><xref linkend="gls_fap"/> demo application "Snails" git repository</title> </biblioentry>
+    </bibliolist>
+
+
+    <glossary> <title>Glossary</title> 
+	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
+		    Ref <xref linkend="ref_wiki_ds"/> for base info.</para> <glossseealso otherterm="gls_dtds"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dds"><glossterm>DDS</glossterm> <acronym>DDS</acronym>
+	    <glossdef> <simpara>Discrete Dynamic System. One more term for <xref linkend="gls_dtds1"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_des"><glossterm>DES</glossterm> <acronym>DES</acronym>
+	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
+		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dest"><glossterm>DEST</glossterm> <acronym>DEST</acronym>
+	    <glossdef> <simpara>Discrete Event System transition language - functional language for variable transition 
+		    in <xref linkend="gls_des"/> framework <xref linkend="gls_fap"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_finite_automata"><glossterm>FSA</glossterm> <acronym>FSA</acronym>
+	    <glossdef> <simpara>Finite State automata</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_fap"><glossterm>FAP</glossterm> <acronym>FAP</acronym>
+	    <glossdef> <simpara>Finite Automata Paradigm framework. The framework for SW development with using of 
+		    <xref linkend="gls_finite_automata"/>paradigm.</simpara> 
+		<simpara>Ref <xref linkend="ref_fap_git"/> for source code repository</simpara></glossdef> </glossentry>
+
+	<glossentry id="gls_ebnf"><glossterm>EBNF</glossterm> <acronym>EBNF</acronym>
+	    <glossdef> <simpara>Extended Backus–Naur Form. A family of metasyntax notations used for expressing context-free grammars: 
+		    that is, a formal way to describe computer programming languages and other formal languages. 
+		    They are extensions of the basic Backus–Naur Form (BNF) metasyntax notation.  </simpara> </glossdef> </glossentry>
+
+    </glossary>
+
+    <sect1 id="sec_intro"><title>Introduction</title>
+	<simpara>In the <xref linkend="gls_fap"/> project the base <xref linkend="gls_des"/> framework 
+	    (ref <xref linkend="ref_fap_git"/>) was created. It uses the language for specifying the
+	    base element of the system - variables (states), dependencies (variable inputs), connections etc. The framework enables to
+	    use regular function written with C, C++, and referred from the system difinition. </simpara>
+	<simpara>This approach is usefull when the framework is used within C++ program. In case of "standalone" <xref linkend="gls_des"/>
+	    solution it seems rather inconvenient. It would be more effecient if transitions are specified directly in system description.</simpara>
+	<simpara>This article outlines how such an approach can be implemented. We first describe the simple functional language 
+	    <xref linkend="gls_dest"/> for transition. 
+	    Then we outline of how the language interpreter can be implemented and embedded into <xref linkend="gls_des"/> 
+	    interpretation framework. And finally the we look at the demo application, and compare the "regular" and embedded
+	    approaches.</simpara>
+    </sect1>
+
+    <sect1 id="sec_lang"><title>The language for transtitions</title>
+	<sect2 id="sec_lang_intro"><title>Introduction</title>
+	    <simpara>Transition in <xref linkend="gls_des"/> are the function that applies the system variable (state) inputs as the 
+		arguments. Thus it is strong reason to use functional language for states transition.</simpara>
+	    <simpara>The advantages here are as: </simpara>
+	    <itemizedlist>
+		<listitem>The language meets the "nature" of the transitions</listitem>
+		<listitem>There is possibility to use compact syntax</listitem>
+		<listitem>Recursive notation can be used that allows simplifying of interpreter.</listitem>
+	    </itemizedlist>
+	</sect2>
+	<sect2 id="sec_lang_syntax"><title>Syntax</title>
+	    <simpara>Let's define the syntax of the language. We prefer to make the syntax simple and compact. 
+		 Not strong <xref linkend="gls_ebnf"/> notation can be specified:</simpara>
+	    <programlisting>
+		<simplelist>
+		    <member>&lt;program&gt; ::= { &lt;statement&gt;, &lt;linefeed&gt; }</member>
+		    <member>&lt;linefeed&gt; ::= "\n"</member>
+		    <member>&lt;statement&gt; ::= &lt;definition&gt; | &lt;expr&gt;</member>
+		    <member>&lt;definition&gt; ::= "let", &lt;gap&gt;, &lt;name&gt;, [&lt;args&gt;], 
+			[&lt;gap&gt;] "::", [&lt;gap&gt;], &lt;typespec&gt;, [[&lt;gap&gt;], ":=", [&lt;gap&gt;] &lt;expr&gt; ]</member>
+		    <member>&lt;expr&gt; ::= &lt;terms&gt;</member>
+		    <member>&lt;term&gt; ::= &lt;name&gt; | "(", terms, ")"</member>
+		    <member>&lt;terms&gt; ::= &lt;term&gt;, {&lt;gap&gt;, &lt;term&gt;}</member>
+		    <member>&lt;typespec&gt; ::= &lt;typename&gt;, { &lt;gap&gt;, &lt;typename&gt;} </member>
+		    <member>&lt;typename&gt; ::= &lt;name&gt;</member>
+		    <member>&lt;name&gt; ::= &lt;ascii-symbol&gt;, {&lt;ascii-symbol&gt; | &lt;ascii-digit&lt;}</member>
+		</simplelist>
+	    </programlisting>
+	    <simpara>The definition specifies simple expression or function depending on if it includes "args" or not </simpara>
+	    <simpara>The exampes are:</simpara>
+	    <itemizedlist>
+		<listitem> Simple definition:
+		    <programlisting> let infrontcnt :: TInt := count filter lt inp coord_self icothers </programlisting>
+		</listitem>
+		<listitem> Function definition:
+		    <programlisting> let restrbot x lim :: TInt TInt TInt := if lt x lim lim x</programlisting>
+		</listitem>
+		<listitem> Expression:
+		    <programlisting>restr rmass KMinMass KMaxMass</programlisting>
+		</listitem>
+	    </itemizedlist>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_mod"><title>Modules</title>
+	<sect2 id="sec_mod_intro"><title>Introduction</title>
+	    <simpara><xref linkend="gls_dest"/> has to support modules in order to reuse the existing functions within states transitions.
+		Also the interpreter has to be adapted to specifics of base DES language as DEST is the part of it.</simpara>
+	</sect2>
+	<sect2><title>Hierarchical modularity.</title>
+	    <simpara>Looking at DES language we can see that the transition function runs in clearly specified context - 
+		first it is the system variable which transition belongs to. Then the system that "owns" this variable, and so on.</simpara>
+	    <simpara>So we can consider the nodes of systems hierarchy as the sources of available DEST modules.</simpara>
+	    <simpara>This approach advantage is that we can isolate systems in term of available transitions. This also gives
+		the functions unification to the base DES language and allows to consider DEST as a part of DES language. </simpara>
+	    <figure id="fig_modules_01"><imageobject> <imagedata fileref="fig_modules_01.png"/> </imageobject></figure>
+	</sect2>
+	<sect2 id="sec_mod_emb"><title>Embedded module</title>
+	    <simpara>There is standard module provided that contains the set of base expressions. This module is accessible by 
+		default for any transitions. The standard module contains language embedded functions such standard data types 
+		constructors, operations etc.</simpara>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_types"><title>Type system</title>
+	<sect2 id="sec_types_intro"><title>Introduction</title>
+	    <simpara>The type system for DES transition language is important because the transition function intention is to handle tha data: 
+		transition function receives the state inputs as the arguments and produces the state data in result.</simpara>
+	    <simpara>Another important capability for the language is using user defined data. The current version of DES interpreter can specify 
+		states with predefined types only, to use extended types we need to implement them as plugins.</simpara>
+	    <simpara>This restriction can be avoided when user defined type is supported in DEST.</simpara>
+	</sect2>
+	<sect2 id="sec_types_repr"><title>Types representation</title>
+	    <simpara>DEST specifies the types for all the terms. The type is specified in the form:</simpara>
+	    <programlisting>
+		type-res type-arg-n ... type-arg-1
+	    </programlisting>
+	    <simpara>Where "type-res" is the type of expression result, and "type-arg" is the type of argument</simpara>
+	    <simpara>The first applied argument type is specified as rightmost one. So when the function applies to the argument,
+		the type of result becomes as removing the righmost type element.</simpara>
+	    <simpara>For example:</simpara>
+	    <programlisting>
+		let inc :: TInt TInt := add 1
+		where
+		the type of "add" is as "TInt TInt TInt"
+	    </programlisting>
+	</sect2>
+	<sect2 id="sec_types_constr"><title>Types and constructors</title>
+	    <simpara>The natural meaning of type is the "characterisation of term". But in fact that "characterisation" can be
+		fulfilled by the specific function - constructor, that creates this specific term.</simpara>
+	    <simpara>So we will mean "constructor" saying "type", and consider type as proper constructor name.</simpara>
+	</sect2>
+	<sect2 id="sec_types_data"><title>Types of data</title>
+	    <simpara>There is no specific way of data representation in DEST. Instead of that the normal term is used to specify data.</simpara>
+	    <simpara>DEST interpreter uses resolution method described further for understanding if the term is function or data.</simpara>
+	    <simpara>For avoiding problems with resolution, the constructor can be defined that accepts the raw term as argument,
+		and results in specific type of data:</simpara>
+	    <programlisting>
+		add 4 TInt abba
+	    </programlisting>
+	    <simpara>Here "TInt" is constructor that represents the input "abba" as integer data.</simpara>
+	</sect2>
+	<sect2 id="sec_types_predef"><title>Predefined types</title>
+	    <simpara>There are the following predefined data types supported</simpara>
+	    <itemizedlist>
+		<listitem>Bool - boolean</listitem>
+		<listitem>Int - standard signed integer</listitem>
+		<listitem>Uint - standard unsigned integer</listitem>
+		<listitem>Float - standard float</listitem>
+		<listitem>[type] - tuple, where "type" desingates the type of data</listitem>
+		<listitem>Struct - combination of not-unitype data fields (the analogue of struct in C++)</listitem>
+	    </itemizedlist>
+	</sect2>
+	<sect2 id="sec_types_userdef"><title>User defined type</title>
+	    <simpara>User can specify custom type via already defined types (constructors) just by using base notation for definition.</simpara>
+	    <simpara>In fact any defined term can be used as a new type. In this case that term will be used as a constructor.</simpara>
+	    <simpara>In example below the function "Complex" is defined. This function can be use as a constructor of expression of type 
+	    "Complex":</simpara>
+	    <programlisting>
+		let Complex x y :: Struct Float Float := Struct (R::Float I::Float) x y
+		let cc1 :: Complex := Complex 4.0 6.0
+	    </programlisting>
+	</sect2>
+	<sect2 id="sec_types_raw"><title>Raw term type</title>
+	    <simpara>As we mentioned there is no specific type for initial data in DESL. The reqular term is used instead. The
+		only difference is that such terms don't have the type specified. So to handle this terms in common manner we inroduce specific
+		type for that desgnated as "-".</simpara>
+	</sect2>
+	<sect2 id="sec_types_unknown"><title>The case of unknown type</title>
+	    <simpara>It is possible that the the "type-res" for expression is not clear at the moment when expression is defined.
+		For example the function that results in value of field of structure cannot know what will be the type of that fied. </simpara>
+	    <simpara>In this case we will designate this type with symbol "*". So the type of function "Fld" will be as:</simpara>
+	    <programlisting> * Struct String </programlisting>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_eval"><title>Expression evaluation</title>
+	<sect2 id="sec_eval_rules"><title>Evaluation rules</title>
+	    <simpara>Evaluation of expression starts from left to right and is performed by applying the arguments recursivelly.</simpara>
+	    <simpara>Let's consider the example below:</simpara>
+	    <programlisting>
+		let KMaxMass :: Int := 100
+		set add inp self div KMaxMass inp mass
+	    </programlisting>
+	    <simpara>Where </simpara> 
+	    <programlisting>
+		set :: Int Int  - embedded function that sets the state data
+		add :: Int Int Int  - embedded function
+		inp :: Int String  - embedded function resuting in state input data 
+		div :: Int Int Int - embedded functon dividing the arguments
+	    </programlisting>
+	    <simpara>The schema of this expression evaluation is as:</simpara>
+	    <programlisting>
+		set add inp self div KMaxMass inp mass
+		|-- add inp self div KMaxMass inp mass
+		|-----  inp self div KMaxMass inp mass
+		-----|  inp'
+		|-- add inp'     div KMaxMass inp mass
+		|-- add'         div KMaxMass inp mass
+		|--              div KMaxMass inp mass
+		|--                  KMaxMass inp mass
+		--|                  KMaxMass' 
+		|--              div KMaxMass' inp mass
+		|--              div'         inp mass
+		|--                           inp mass
+		--|                           inp'
+		|--              div'         inp'
+		--|              div''
+		|-- add'         div''
+		--| add''
+		set add''
+
+		where
+		|--  x ...    means "expression x applied to its argument"
+		--|  x        means "expression x application results returns" 
+		x'            means "result of expression x applied one argument" etc.
+	    </programlisting>
+	</sect2>
+	<sect2 id="sec_eval_res"><title>Arguments resolution using type information</title>
+	    <simpara>Terms resolution is the important feature that makes the language applicable. This is because we would like not to
+		have requirement that all terms shall be unique. Otherwize the language would be rather inconvenient for usage.
+		But if the terms are not unique than we can face several problems. The one problem is that there will be more that one 
+		candidate for the argument when applying expression:</simpara>
+	    <programlisting>
+		let arg :: Int :: inc 1
+		let arg :: Float :: 6.0
+		let myfun x :: Int Int := add x x
+		myfun arg
+	    </programlisting>
+	    <simpara>Here it is ambiguous for "myfun" which "arg" to be applied to, the "Int" or "Float". The name resolution
+		is needed to select the correct expr.</simpara>
+	    <simpara>Another case is when the type of argument doesn't meet the required type. The example is:</simpara>
+	    <programlisting>
+		let Complex x y :: Struct Float Float := Struct (R::Float I::Float) x y
+		let rr :: Int := 5
+		let ii :: Int := 6
+		let cc1 :: Complex := Complex rr ii
+	    </programlisting>
+	    <simpara>Constructor "Complex" requests argument of type "Float", but type "Int" presented instead. The approach 
+		here is the look at constructor of Float that accept Int arguments, and then use the constructor to "cast" the 
+		Int argument to the Float one.</simpara>
+	    <simpara>One more case is the argument of unknown type (ref <xref linkend="sec_types_unknown"/>. Expr simply doesn't have
+		any information of argument type, so cannot apply it properly.  </simpara>
+	    <programlisting>
+		let mystruct :: Struct := Struct (Fi::Int Ff::Float) 4 7.0
+		let dd :: Int := inc Fld mystruct Fi
+	    </programlisting>
+	    <simpara>So expr "inc" requires Int type but at the moment of applying arguments for "inc" the type of argument
+	    "Fld" is unknown.</simpara>
+	    <simpara> The possible solution here is to "believe" that the argument will be of the correct type after 
+		evaluation and thus evaluate it first, and then apply. 
+		</simpara>
+	    <simpara>The name resolution based on type of expression. When evaluating, the expression selects the argument with 
+		compatible type. Resolution algirithm handling all these cases are outlined below:</simpara>
+	    <figure id="fig_name_resol_01"><imageobject> <imagedata fileref="fig_name_resol_01.png"/> </imageobject></figure>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_impl"><title>Implementation of interpreter</title>
+	<simpara>As we can see the process of evaluating of expressions is recursive. This allows simplifying the 
+	    implenetation of interpreter. The structure of interpeter is outlined by class diagram below.</simpara>
+	<simpara>The base functionality of expression evaluating is implemented with expression base class CSL_ExprBase. 
+	    Its methos ApplyArgs includes the logic of terms resolution by the type (ref. <xref linkend="sec_eval_res"/>).</simpara>
+	<simpara>All predefined expressions are inherited from the base class and overwrite mainly two methods - 
+	    Apply and Clone. Apply method implements expression specific function, for instance adding argument for embedded
+	    function "add".</simpara>
+	<simpara>One more custom expression is CSL_FunBase - user defined function. It implements mapping functin variable to the arguments being 
+	    applied.</simpara>
+	<figure id="fig_class_dgm"><imageobject> <imagedata fileref="fig_class_dgm.png"/> </imageobject></figure>
+	<simpara>And finally CSL_Interpr - interpreter just goes line by line thru transition, evaluates expressions, and
+	    keeps evaluated expression in order to provide them when next expression tries to resolve the terms.</simpara>
+	<simpara>Interpreter method EvalTrans can be launched in context of DES system or state. This context is passed to
+	the method so interpreter can understand what should be result of transition evaluation.</simpara>
+	<simpara>In case of state context the interpreter performs setting the final result of transition evaluaton to the state.</simpara>
+    </sect1>
+
+    <sect1 id="sec_snails"><title>Example: Snails</title>
+	<sect2 id="sec_snails_vs"><title>"Snails with DESL vs. Snails with C++ transitions</title>
+	    <simpara>There was demo application snails described in <xref linkend="ref_ybor_using_des"/> where transition
+		functions were implemented on C++.</simpara>
+	    <simpara>Let's compare initial implementation of "Snails" demo to the implementation using embedded transition
+		functions written on DEST.</simpara>
+	    <figure id="fig_cpp_vs_desl"><imageobject> <imagedata fileref="fig_cpp_vs_desl.png"/> </imageobject></figure>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_disc"><title>Discussion</title>
+	<simpara>We have presented simple functional languge for transition function in the scope of DES general
+	    languge.  We have shown solutions for the key algorithms of language interpretation.</simpara>
+	<simpara>We outline the important use cases and approaches of how they can be implemented. 
+	    Finally we compare transition functions implemented in C++ and DEST on simple demo application.</simpara>
+	<simpara>We argue therefore that using the proposed language makes DES programs more compact and efficient.</simpara>
+    </sect1>
+
+</article>

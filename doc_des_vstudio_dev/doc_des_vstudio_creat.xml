@@ -1,0 +1,220 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd">
+
+<article> <title>Creating simple IDE for Discrete Events Systems framework.</title>
+    <articleinfo>
+	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
+	    <email>yuri.borisov.v@gmail.com</email></author> 
+
+	<releaseinfo>Ver.0.01 at 10-Jun-2011</releaseinfo>
+
+	<revhistory>
+	    <revision> <revnumber>0.01</revnumber> <date>10-Jun-2011</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Initial version</revremark> </revision>
+	</revhistory>
+    </articleinfo>
+
+    <bibliolist> <title>References</title>
+
+	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
+	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_dds"> <abbrev>WIKI_DDS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Discrete-time_dynamical_system"/></productname>
+	    <title>Discrete time Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_ds_org"> <abbrev>DS_ORG</abbrev>
+	    <productname><ulink url="http://www.dynamical-systems.org/"/></productname>
+	    <title>dynamical-systems.org</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_fsa"> <abbrev>WIKI_FSA</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Finite_state_machine"/></productname>
+	    <title>Finite-state machine. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_wiki_aut_theory"> <abbrev>WIKI_AUT_THEORY</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Automata_theory"/></productname>
+	    <title>Automata theory. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_cass_intr_des"> <abbrev>CASS_INTR_DES</abbrev>
+	    <productname><ulink url="http://books.tr200.ru/v.php?id=242379"/></productname>
+	    <title>Christos Cassandras, Stefane Lafortune. Introduction to Discrete Event System. </title> </biblioentry>
+
+	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap"/></productname>
+	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
+
+	<biblioentry id="ref_doc_dsa_in_swd"> <abbrev>FAP_DOC_DSA_IN_SWD</abbrev>
+	    <productname><ulink url="https://telecawiki.teleca.com/twiki/pub/Main/ProgrammingLanguages/using_dsa_in_swd.mht"/>, 
+		<ulink url="http://gitorious.org/fap/doc_dsa_in_swd"/></productname>
+	    <title>Yuri Borisov. Using of Synchronous Discrete Time System paradigm in software development.</title> </biblioentry>
+
+	<biblioentry id="ref_des_emb_trans"> <abbrev>FAP_DES_EMB_TRANS</abbrev>
+	    <productname>
+		<ulink url="https://telecawiki.teleca.com/twiki/pub/Main/ProgrammingLanguages/Using_embedded_transtion_in_DES_interpreter.mht"/>, 
+		<ulink url="http://gitorious.org/fap/doc_des_emb_trans"/></productname>
+	    <title>Yuri Borisov. Using of Synchronous Discrete Time System paradigm in software development.</title> </biblioentry>
+    </bibliolist>
+
+
+    <glossary> <title>Glossary</title> 
+	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
+		    Ref <xref linkend="ref_wiki_ds"/> for base info.</para> <glossseealso otherterm="gls_dtds"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dds"><glossterm>DDS</glossterm> <acronym>DDS</acronym>
+	    <glossdef> <simpara>Discrete Dynamic System. One more term for <xref linkend="gls_dtds1"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_des"><glossterm>DES</glossterm> <acronym>DES</acronym>
+	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
+		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dso_mbp"><glossterm>DSO-MBP</glossterm> <acronym>DSO-MBP</acronym>
+	    <glossdef> <simpara>Dynamic System Oriented Model Based Programming </simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_distr_state_aut"><glossterm>DSA</glossterm> <acronym>DSA</acronym>
+	    <glossdef> <simpara>Distributed State Automation.</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_finite_automata"><glossterm>FSA</glossterm> <acronym>FSA</acronym>
+	    <glossdef> <simpara>Finite State automata</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_fap"><glossterm>FAP</glossterm> <acronym>FAP</acronym>
+	    <glossdef> <simpara>Finite Automata Paradigm framework. The framework for SW development with using of 
+		    <xref linkend="gls_finite_automata"/>paradigm.</simpara> 
+		<simpara>Ref <xref linkend="ref_fap_git"/> for source code repository</simpara></glossdef> </glossentry>
+
+	<glossentry id="gls_ide"><glossterm>IDE</glossterm> <acronym>IDE</acronym>
+	    <glossdef> <simpara>Integrated Development Environment</simpara> </glossdef> </glossentry>
+
+	</glossary>
+
+
+    <sect1 id="sec_intro"><title>Introduction</title>
+	<simpara>Discrete Events Systems (<xref linkend="gls_des"/>) is the effective way for systems modelling and simulation. 
+	    There was DES framework introduced, based on specific language for systems structure and states transitions 
+	    (ref <xref linkend="ref_doc_dsa_in_swd"/>, <xref linkend="ref_des_emb_trans"/>).</simpara>
+	<simpara>The common approach for such a framework based development is creating the set of tool that helps 
+	    visualizing, tracing, debugging etc. The first step here can be creating of lightweighted integrated development environment (IDE)
+	    containing some initial set of tools. This article outlines the attemplt of creating such a IDE application.</simpara>
+    </sect1>
+
+    <sect1 id="sec_tools"><title>Tools and features</title>
+	<simpara>Let's consider the initial set of features and tools supported by DES IDE. The list can be as:</simpara>
+	<itemizedlist>
+	    <listitem>Creating DES enviroment</listitem>
+	    <listitem>Creating the system from the spec file</listitem>
+	    <listitem>Visualization - view system spec, editing</listitem>
+	    <listitem>Displaying the system log</listitem>
+	    <listitem>Running in continuous and stepping modes</listitem>
+	</itemizedlist>
+	<simpara>This set of features allows user to perform complete development of simple system. The typical 
+	    development cycle would be as: </simpara>
+	<itemizedlist>
+	    <listitem>IDE creates DES environment by default with empty root system.</listitem>
+	    <listitem>User uses DES visual representation to create his system within root.</listitem>
+	    <listitem>User test the system by running or stepping it.</listitem>
+	    <listitem>User checks the system evaluation and errors from the log displayed.</listitem>
+	</itemizedlist>
+    </sect1>
+
+    <sect1 id="sec_desvl"><title>DES visual representation language (DESVL)</title>
+	<simpara>For implementing the system visualization functionality of DES it is important to have 
+	    simple and convenient visual language for such a representation.</simpara>
+	<simpara>There are some variants of DES visual representation. For instance the kind of tree-based form would be
+	    sutable because the native structure of DESL is tree based. We will focus on visual form that shows all elements directly, 
+	    including connections. This means that it will be representation for single level of system's hierarchy.</simpara>
+	<simpara>DES generic language (DESL) describes the system via specifying of system's structure and transitions,
+	    thus DESVL is just another form of system representation. So DESVL has to generally correspond generic
+	    language in system description elements.</simpara>
+	<simpara>The following notations are proposed for base element of visual language (also DESL elements are given
+	    for comparition purpose).</simpara>
+	<sect2><title>State</title>
+	    <simpara>State element consists of header and body, where header contains name and type, but body contains
+		inputs, transition, and initial value.</simpara>
+	    <figure id="fig_desvl_elm_state"><imageobject> <imagedata fileref="img/desvl_elm_state.png"/> </imageobject></figure>
+	</sect2>
+	<sect2><title>Subsystem or component</title>
+	    <simpara>Component is a subsystem within the given system. Component detailed structure is not represented in this
+		element in order to make the system's visual description is more compact. It is IDE responsibilty to secure 
+		displaying the component in detail as a system in case of the user request.</simpara>
+	    <simpara>So component contains only parts that are important to show the system structure - name, type, inputs, and outputs.</simpara>
+	    <figure id="fig_desvl_elm_comp"><imageobject> <imagedata fileref="img/desvl_elm_comp.png"/> </imageobject></figure>
+	</sect2>
+	<sect2><title>System</title>
+	    <simpara>System's element of DESVL represents the whole system exlcuding deeper layers of hierarchy. The element 
+		contains states, components, transtion, inputs, outputs, and connections.</simpara>
+	    <figure id="fig_desvl_elm_syst"><imageobject> <imagedata fileref="img/desvl_elm_syst.png"/> </imageobject></figure>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_mapping"><title>Mapping of visual representation to the run-time model</title>
+	<simpara>We can consider two approaches for relation of visial representation to system model.</simpara>
+	<itemizedlist>
+	    <listitem>Visual representation corresponds to system's DESL specification.</listitem>
+	    <listitem>Visual model represents run-time system's.</listitem>
+	</itemizedlist>
+	<sect2><title>DESVL to specification</title>
+	    <simpara>In this case the direct mapping between visual and general specification are used. Each DESVL element
+		on the visual specification results in generation corresponding DESL specification node. So the chain of creating
+		DES runtime structure is as: DESVL-> DESL->Runtime.</simpara>
+	    <simpara>The weakness of this approach is that visual representation shows the system in initial state only but
+		not in dynamic. It is not possible to see of how the system structure changes when running.</simpara>
+	</sect2>
+	<sect2><title>DESVL to DES run-time</title>
+	    <simpara>With this approach the visual representation corresponds to run-time DES. Each element of visual representation
+		corresponds to element of run-time structure. So it makes possible to show the system in all the steps of evaluation. Also the
+		state vector can be shown. The general DESL specification can be created from run-time in turn. So the relation schema is 
+		as: DESVL -> Runtime -> DESL</simpara>
+	</sect2>
+	<simpara>We will focus on the second approach that seems more preferrable basing on this analysis.</simpara>
+    </sect1>
+
+    <sect1 id="sec_exmpl_incr"><title>Example: "Hello world"</title>
+	<simpara>Let us test IDE with simple DES application, a kind of C Hello world. This application will 
+	    just implements simple incrementor.  </simpara>
+	<itemizedlist>
+	    <listitem>The system contains only one state of type TInt named "Incrementor".</listitem>
+	    <listitem>The state input is state's own output, thus the state updates constantly.</listitem>
+	    <listitem>Transition function is just incrementing of state.</listitem>
+	</itemizedlist>
+	<simpara>To create the application:</simpara>
+	<itemizedlist>
+	    <listitem>Open specification template "Empty" - IDE will create DES environment with empty root system.</listitem>
+	    <listitem>Add the state - just drag and drop the icon "state" from toolbar to root system area - IDE will create state 
+		with random name and of default type "StInt" - integer.</listitem>
+	    <listitem>Rename the state - edit state name in place, press "Enter" to complete editing.</listitem>
+	    <listitem>Add input to the state - drag and drop button with input icon from toolbar to the state - IDE will create
+		input with random name. Rename input to "inp1" by editing in place.</listitem>
+	    <listitem>Add transition "add inp inp1 1" for incrementing state - enter text into transition area.</listitem>
+	    <listitem>Connect input "inp1" to state's output - drag input label to output area.</listitem>
+	</itemizedlist>
+	<simpara>As a result we will have simple system as:</simpara>
+	<figure id="fig_desvl_incr"><imageobject> <imagedata fileref="img/desvl_increm.png"/> </imageobject></figure>
+	<simpara>Run the system in stepping mode - the system's state will be recorded in log file and displayed on bottom 
+	    pane of IDE window:</simpara>
+	<figure id="fig_desvl_incr_log"><imageobject> <imagedata fileref="img/desvl_increm_log.png"/> </imageobject></figure>
+    </sect1>
+
+    <sect1 id="sec_exmpl_rock"><title>Example: Rock throwed</title>
+	<simpara>Next example is a bit more complicated and implement a throwing ball. The system includes couple of states - "coord"
+	    and "velocity" of type Vector. Also more complex transition is used, some transition is on system side. </simpara>
+	<simpara>The root system is as:</simpara>
+	<figure id="fig_desvl_rock_root"><imageobject> <imagedata fileref="img/desvl_rock_root.png"/> </imageobject></figure>
+	<simpara>Rock itself is next-level subsystem:</simpara>
+	<figure id="fig_desvl_rock_rock"><imageobject> <imagedata fileref="img/desvl_rock_rock.png"/> </imageobject></figure>
+	<simpara>Now we can run the system and see the rock's coordinates changes accordingly:</simpara>
+	<figure id="fig_desvl_rock_log"><imageobject> <imagedata fileref="img/desvl_rock_log.png"/> </imageobject></figure>
+    </sect1>
+
+    <sect1 id="sec_disc"><title>Discussion</title>
+	<simpara>We have presented simple IDE for DES basing on visual representation languge (DESVL).  </simpara>
+	<simpara>We outline the approaches to visial representation binding to DES run-time model and consider 
+	    direct representation as more suitable for IDE.  Finally we create couple of simple examples that show 
+	    the typical procedure of developing and testing DES application in IDE.</simpara>
+    </sect1>
+
+</article>
