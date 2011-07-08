@@ -7,11 +7,13 @@
 	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
 	    <email>yuri.borisov.v@gmail.com</email></author> 
 
-	<releaseinfo>Ver.0.01 at 10-Jun-2011</releaseinfo>
+	<releaseinfo>Ver.0.02 at 04-Jul-2011</releaseinfo>
 
 	<revhistory>
 	    <revision> <revnumber>0.01</revnumber> <date>10-Jun-2011</date> <authorinitials>Yuri Borisov</authorinitials>
 		<revremark>Initial version</revremark> </revision>
+	    <revision> <revnumber>0.02</revnumber> <date>05-Jul-2011</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Added <xref linkend="sec_vis_module"/></revremark> </revision>
 	</revhistory>
     </articleinfo>
 
@@ -45,6 +47,14 @@
 	    <productname><ulink url="http://gitorious.org/fap"/></productname>
 	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
 
+	<biblioentry id="ref_fapbvp_git"> <abbrev>FAP_BVP_GIT</abbrev>
+	    <productname><ulink url="https://gitorious.org/fap/fap-bvp-gtk"/></productname>
+	    <title>FAP View proxy project git repository</title> </biblioentry>
+
+	<biblioentry id="ref_fapstudio_git"> <abbrev>FAP_STUDIO_GIT</abbrev>
+	    <productname><ulink url="https://gitorious.org/fap/fap-studio-gtk"/></productname>
+	    <title>FAP Studio project git repository</title> </biblioentry>
+
 	<biblioentry id="ref_doc_dsa_in_swd"> <abbrev>FAP_DOC_DSA_IN_SWD</abbrev>
 	    <productname><ulink url="https://telecawiki.teleca.com/twiki/pub/Main/ProgrammingLanguages/using_dsa_in_swd.mht"/>, 
 		<ulink url="http://gitorious.org/fap/doc_dsa_in_swd"/></productname>
@@ -73,6 +83,14 @@
 	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
 		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
 
+	<glossentry id="gls_desl"><glossterm>DESL</glossterm> <acronym>DESL</acronym>
+	    <glossdef> <simpara>Discrete Event System general language - descirbes the structure of the system and states transtitios.
+		    Specific language <xref linkend="gls_dest"/> is used to transitions.</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dest"><glossterm>DEST</glossterm> <acronym>DEST</acronym>
+	    <glossdef> <simpara>Discrete Event System transition language - functional language for variable transition 
+		    in <xref linkend="gls_des"/> framework <xref linkend="gls_fap"/></simpara> </glossdef> </glossentry>
+
 	<glossentry id="gls_dso_mbp"><glossterm>DSO-MBP</glossterm> <acronym>DSO-MBP</acronym>
 	    <glossdef> <simpara>Dynamic System Oriented Model Based Programming </simpara> </glossdef> </glossentry>
 
@@ -90,7 +108,7 @@
 	<glossentry id="gls_ide"><glossterm>IDE</glossterm> <acronym>IDE</acronym>
 	    <glossdef> <simpara>Integrated Development Environment</simpara> </glossdef> </glossentry>
 
-	</glossary>
+    </glossary>
 
 
     <sect1 id="sec_intro"><title>Introduction</title>
@@ -98,8 +116,12 @@
 	    There was DES framework introduced, based on specific language for systems structure and states transitions 
 	    (ref <xref linkend="ref_doc_dsa_in_swd"/>, <xref linkend="ref_des_emb_trans"/>).</simpara>
 	<simpara>The common approach for such a framework based development is creating the set of tool that helps 
-	    visualizing, tracing, debugging etc. The first step here can be creating of lightweighted integrated development environment (IDE)
+	    specify systems, visualizing, tracing, debugging etc. 
+	    The first step here can be creating of lightweighted integrated development environment (IDE)
 	    containing some initial set of tools. This article outlines the attemplt of creating such a IDE application.</simpara>
+	<simpara>Another important feature is visualization of system run. There will be one of possible solutions 
+	    considered in the article, that provides simple native interface for DES system for access to environment
+	    widget system.</simpara>
     </sect1>
 
     <sect1 id="sec_tools"><title>Tools and features</title>
@@ -173,6 +195,32 @@
 	<simpara>We will focus on the second approach that seems more preferrable basing on this analysis.</simpara>
     </sect1>
 
+    <sect1 id="sec_design"><title>IDE design outline</title>
+	<simpara>Simple IDE architecture corresponds to standard Model-View-Controller (MVC) design template. The diagram below
+	    outlines the structure of application variant based on GTK framework.</simpara>
+	<figure id="fig_ide_design_outline"><imageobject> <imagedata fileref="img/ide_design_outline.png"/> </imageobject></figure>
+	<simpara>The main elements of architecture are as:</simpara>
+	<itemizedlist>
+	    <listitem>Application class plays role of Controller. It is responsible for creating the model, view, and main window.</listitem>
+	    <listitem>CAE_Env class (core environment of FAP system) acts as Model. The class creates the system hierarchy from 
+		the specification given by Controller. The environment also give an access to root system of hierarchy.</listitem>
+	    <listitem>CagProxy class is View proxy for the system. The proxy implements the proxy interface MAE_Opv, 
+		thru which interacts to the system. </listitem>
+	</itemizedlist>
+	<simpara>The initialization interactions are as:</simpara>
+	<itemizedlist>
+	    <listitem>User opens application, Controller is created.</listitem>
+	    <listitem>Controller creates Model and pass to it default specification of the system.</listitem>
+	    <listitem>Model creates the system from default specification and makes the root system available.</listitem>
+	    <listitem>Controller create View and "bind" it to the root system.</listitem>
+	    <listitem>User is able to navigate thru the whole hierarchy of the system - View interacts to 
+		the binded subsystem in order to move the cursor within the hierarchy tree.</listitem>
+	</itemizedlist>
+	<simpara>For source codes of the projects of FAP IDE, and View proxy refer the repositories 
+	    <xref linkend="ref_fapstudio_git"/> and <xref linkend="ref_fapbvp_git"/> 
+	</simpara>
+    </sect1>
+
     <sect1 id="sec_exmpl_incr"><title>Example: "Hello world"</title>
 	<simpara>Let us test IDE with simple DES application, a kind of C Hello world. This application will 
 	    just implements simple incrementor.  </simpara>
@@ -210,10 +258,39 @@
 	<figure id="fig_desvl_rock_log"><imageobject> <imagedata fileref="img/desvl_rock_log.png"/> </imageobject></figure>
     </sect1>
 
+    <sect1 id="sec_vis_module"><title>Visualization module</title>
+	<simpara>There are some possible approaches for DES visualization. One of them is creating specific subset of
+	    DESTL for access to environment's widget system. In this case the event system would include the proper
+	    DESTL commands to transitions in order to display the status. Thou being seemed direct way to widget subsystem 
+	    this approach cause to overhead of transition with command that doesn't relate to transition really.  </simpara>
+	<simpara>Therefore we consider another approach where dedicated events system is used for interacting to 
+	    widget system. So this dedicated visualization DES acts as a proxy between DES and real widgets.</simpara>
+	<figure id="fig_desvm_layer"><imageobject> <imagedata fileref="img/fig_desvm_layer.png"/> </imageobject></figure>
+	<simpara>The visualization system itself need to access to widgets via native interface of widgets system. 
+	    The system transitions have to be able to use this interface so the transitions should be written on C, C++. 
+	    This can be done by creating dedicated plugin for DES framework in order to allow  DES environment load 
+	    transitions functions and "attach" them to visualization DES states. Visualization DES in whole can be
+	    delivered as DES framework module so it can be loaded in any DES system and used properly.</simpara>
+	<simpara>Let us look at the simple example of such a visualization module.</simpara>
+	<figure id="fig_desvm_simple"><imageobject> <imagedata fileref="img/fig_desvm_simple.png"/> </imageobject></figure>
+	<simpara>In this example there are only three systems that "wrap" native widgets:</simpara>
+	<itemizedlist>
+	    <listitem>Window - wraps main window widget</listitem>
+	    <listitem>Fixed - wraps container that allows external control of positioning the childs</listitem>
+	    <listitem>Drawig_Area - wrapper for simple widget that allows direct drawing into it.</listitem>
+	</itemizedlist>
+	<simpara>This simple visualization module can be used for instance for displaying status of 
+	    DES simulating 2D physic models.  We can use it to make the example "Rock" above vusualized.</simpara>
+    </sect1>
+
     <sect1 id="sec_disc"><title>Discussion</title>
 	<simpara>We have presented simple IDE for DES basing on visual representation languge (DESVL).  </simpara>
-	<simpara>We outline the approaches to visial representation binding to DES run-time model and consider 
-	    direct representation as more suitable for IDE.  Finally we create couple of simple examples that show 
+	<simpara>We outlined the approaches to visial representation binding to DES run-time model and consider 
+	    direct representation as more suitable for IDE.  </simpara>
+	<simpara>We described the architecture for simpe IDE application and main interactions between the general components.  </simpara>
+	<simpara>Also the approaches for DES visualization were discussed and the structure of visualization "proxy" module was
+	    considered.</simpara>
+	<simpara> Finally we created couple of simple examples that show 
 	    the typical procedure of developing and testing DES application in IDE.</simpara>
     </sect1>
 

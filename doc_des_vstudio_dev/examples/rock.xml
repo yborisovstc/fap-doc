@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<iobject id="root" type="none">
+  <trans>
+
+let Point x y :: Struct Float Float := Struct (X::Float Y::Float) x y
+let Point x y :: Struct - - := Struct (X::Float Y::Float) Float x Float y
+let cc1 :: Point := Point 4.0 6.0
+let cc2 :: Point := 5.0 7.0
+let PtX x :: Float Point := Fld x X
+let PtY x :: Float Point := Fld x Y
+let add x y :: Point Point Point := Point (add PtX x PtX y) (add PtY x PtY y)
+let Vector x y :: Struct Float Float := Struct (X::Float Y::Float) x y
+let Vector x y :: Struct - - := Struct (X::Float Y::Float) Float x Float y
+let Vector x :: Struct Struct := x
+let vc1 :: Vector := Vector 4.0 6.0
+let vc2 :: Vector := 5.0 7.0
+let KVect0 :: Vector := 0.0 0.0
+let VectX x :: Float Vector := Fld x X
+let VectY x :: Float Vector := Fld x Y
+let vc1x :: Float := VectX vc1
+let vc1y :: Float := VectY vc1
+let add x y :: Vector Vector Vector := Vector add VectX x VectX y add VectY x VectY y
+let atst :: Vector := add vc1 vc2
+let KAccDef :: Vector := 0.0 -8.9
+let cp1 :: TBool := lt VectY vc1 0.0
+
+  
+  </trans>
+  <iobject id="rock" type="none">
+    <state type="Float" id="mass" init="  2.0 ">
+
+
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <trans/>
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    </state>
+    <state type="Vector" id="coord" init="  0.0 1.0 ">
+
+
+	
+      <logspec event="upd">
+ 
+        <logdata id="cur"/>
+ 
+        <logdata id="new"/>
+ 
+      </logspec>
+ 
+
+
+
+
+      
+      
+      
+      
+      
+      
+      <trans>
+
+
+
+let coord :: Vector := add inp self inp velocity
+let bang :: TBool := le VectY coord 0.0 
+if bang KVect0 coord
+      
+      
+      
+      </trans>
+
+
+
+
+
+
+    
+      
+      
+      
+      
+      
+      <inp id="self"/>
+
+
+
+
+
+      
+      
+      
+      
+      
+      <inp id="velocity"/>
+
+
+
+
+
+    
+    
+    
+    
+    
+    </state>
+    <state type="Vector" id="velocity" init=" 80.0 80.0  ">
+
+
+
+
+
+      
+      
+      
+      
+      
+      <trans>
+
+
+
+let bang :: TBool := le VectY inp coord 0.0 
+let vel :: Vector := add inp self KAccDef 
+if bang KVect0 vel
+      
+      
+      
+      </trans>
+
+
+
+
+
+      
+      
+      
+      
+      
+      <inp id="self"/>
+
+
+
+
+
+      
+      
+      
+      
+      
+      <inp id="coord"/>
+
+
+
+
+
+    
+    
+    
+    
+    
+    </state>
+    <conn id="state%coord.self" pair="state%coord.output"/>
+    <conn id="state%coord.velocity" pair="state%velocity.output"/>
+    <conn id="state%velocity.coord" pair="state%coord.output"/>
+    <conn id="state%velocity.self" pair="state%velocity.output"/>
+  </iobject>
+</iobject>
