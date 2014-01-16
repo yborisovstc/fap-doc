@@ -1,0 +1,222 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd">
+
+
+<article> <title>Using mutliagents design approach in Discrete Event System transitions</title>
+    <articleinfo>
+	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
+	    <email>yuri.borisov.v@gmail.com</email></author> 
+
+	<abstract>
+	    <simpara>The weak multiagents approach was offered for usage in discrete event system.
+		The approach can be used for implementing system variables transition functions and even for
+		implementing of other DES structural components.</simpara>
+	    <simpara>The design and specifics of the implementation is outlined. It is shown that
+		using this approach creates convenient environment for specifying and running the systems</simpara>
+	</abstract>
+
+	<releaseinfo>Ver.0.01 at 01-Jun-2011</releaseinfo>
+
+	<revhistory>
+	    <revision> <revnumber>0.01</revnumber> <date>01-Jun-2012</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Initial version</revremark> </revision>
+	</revhistory>
+    </articleinfo>
+
+    <bibliolist> <title>References</title>
+
+	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
+	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_cass_intr_des"> <abbrev>CASS_INTR_DES</abbrev>
+	    <productname><ulink url="http://books.tr200.ru/v.php?id=242379"/></productname>
+	    <title>Christos Cassandras, Stefane Lafortune. Introduction to Discrete Event System. </title> </biblioentry>
+
+	<biblioentry id="ref_ybor_using_des"> <abbrev>YBOR_USING_DES_</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZWlNiWTNPQmhrOUk/edit?usp=sharing"/></productname>
+	    <title>Y.Borisov, A.Lemekhova. Using of Synchronous Discrete Time System paradigm in software development</title> </biblioentry>
+
+	<biblioentry id="ref_yb_embtr"> <abbrev>YB_EMBTR</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZV3NLZHlzc2lHa0k/edit?usp=sharing"/></productname>
+	    <title>Y.Borisov. Using embedded transtion in Discrete Event System language interpreter</title> </biblioentry>
+
+	<biblioentry id="ref_yb_deside1"> <abbrev>YB_DESIDE1</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZVjdZX0U4Tm0yeUU/edit?usp=sharing"/></productname>
+	    <title>Yuri Borisov. Simple IDE for Discrete Events Systems framework.</title> </biblioentry>
+
+
+	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap"/></productname>
+	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
+
+
+	<biblioentry id="ref_fap_demo_snails"> <abbrev>FAP_DEMO_SNAILS</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap/fap-snails"/></productname>
+	    <title><xref linkend="gls_fap"/> demo application "Snails" git repository</title> </biblioentry>
+    </bibliolist>
+
+
+    <glossary> <title>Glossary</title> 
+	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
+		    Ref <xref linkend="ref_wiki_ds"/> for base info.</para> <glossseealso otherterm="gls_dtds"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dds"><glossterm>DDS</glossterm> <acronym>DDS</acronym>
+	    <glossdef> <simpara>Discrete Dynamic System. One more term for <xref linkend="gls_dtds1"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_des"><glossterm>DES</glossterm> <acronym>DES</acronym>
+	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
+		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_desl"><glossterm>DESL</glossterm> <acronym>DESL</acronym>
+	    <glossdef> <simpara>Discrete Event System general language - descirbes the structure of the system.
+		    Ref <xref linkend="ref_ybor_using_des"/>, <xref linkend="ref_yb_deside1"/> 
+		    for details and examples.  </simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dest"><glossterm>DEST</glossterm> <acronym>DEST</acronym>
+	    <glossdef> <simpara>Discrete Event System transition language - functional language for variable transition 
+		    in <xref linkend="gls_des"/> framework <xref linkend="gls_fap"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_finite_automata"><glossterm>FSA</glossterm> <acronym>FSA</acronym>
+	    <glossdef> <simpara>Finite State automata</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_fap"><glossterm>FAP</glossterm> <acronym>FAP</acronym>
+	    <glossdef> <simpara>Finite Automata Paradigm framework. The framework for SW development with using of 
+		    <xref linkend="gls_finite_automata"/>paradigm.</simpara> 
+		<simpara>Ref <xref linkend="ref_fap_git"/> for source code repository</simpara></glossdef> </glossentry>
+
+    </glossary>
+
+    <sect1 id="sec_intro"><title>Introduction</title>
+	<simpara>In the <xref linkend="gls_fap"/> project the base <xref linkend="gls_des"/> framework 
+	    was created, ref <xref linkend="ref_fap_git"/>. The framework uses the language for specifying the
+	    base element of the system - variables (states), dependencies (variable inputs), connections etc. The framework enables to
+	    use regular function written with C, C++, and referred from the system difinition. </simpara>
+	<simpara>This approach is suitable only when the framework client is written in C or C++. The system in this case is combined 
+	    from base application, transitions written in native language and the structure definition written 
+	    on structural language like <xref linkend="gls_desl"/>. 
+	    It would be more effecient if transitions are specified directly in system description, avoiding necessity of 
+	    using native language in addition of the system definition.</simpara>
+	<simpara>One of the approach of intermediate solution is described in <xref linkend="ref_yb_embtr"/>. In this solution the
+	    transitions are defined in specific functional language and are "embedded" into system definition instead of 
+	    being implemented in native code. This approach allows avoiding separation of the system definition to interpreted and native
+	    parts but nevertheless requires specific interpreter of functional language for transitions.</simpara>
+	<simpara>This article outlines the approach to unified definition for both system structure and transitions. 
+	    We first inroduce the basics of unificaion system definition language. Then we consider the approach to multiagent architecture
+	    for constructing DES.  Then we detalize the language and outline of how typical <xref linkend="gls_des"/> can be defined 
+	    with using of the language in multiagent environment. 
+	    And finally the we consider some <xref linkend="gls_des"/> models samples, and compare the "regular" and offered approaches.</simpara>
+    </sect1>
+
+    <sect1 id="sec_basics"><title>Basics of unified system description.</title>
+	<simpara>System structure definition language construction depends on what atomary elements are used for creation of system. 
+	    For instanle in <xref linkend="gls_desl"/> language these elementary components are state, transition, system, and connection.</simpara>
+	<simpara>To get common language for all these parts it is required to compound them via common lower-layer base elements. So 
+	    the base elements need to be defined as well as the mechanism of combining DES from them. 
+	    The language then will be the means of specifying of DES components creation from base elements. Let's consider the base elements 
+	    for transition functions. A function can be produced as combination of lower-level functions in form of tree, where the result
+	    of child node is used as an argument of parent node. For instance, the function: </simpara>
+	    <programlisting>
+		f(x,y) = x*x + y*y,
+	    </programlisting>
+	    can be represented as
+	    <programlisting>
+		f(x,y) = f1(x) + f1(y), where f1(x) = x*x.
+	    </programlisting>
+	    <simpara>The lower-level functions in turn can be factorized into next level function, so this process of factorization 
+		will be finalized on level of elementary functions. These are to be predefined and delievered as base structural elements of
+		DES development means.</simpara>
+	    <simpara>So syntactically the function can be described as  the set of "internal" functions
+	    and net of "connections" that creates the required sequence of arguments transformation.</simpara>
+	<simpara>This structure of transition basically gives some commonality for DES components. Let's consider the base element for combining
+	    DES components. This element is to be able to include else elements in order to create more complex structures. So the elements 
+	    hierarchy, where each element becomes the hierarchy node,  will create the DES components. It is 
+	    sutable to use inheritance and changing as the mechanism of creating more complex structure from the elements. Also the element is to 
+	    have "native" behavior. This is because the the real "source" of behavior of complex structures buit from the elements can 
+	    only be native behavior of the structure comonents. Also the element needs to support of keeping some data (content) that can
+	    be uses as parameters and variables of created structures. 
+	    So the base capabilities of the element are as:</simpara>
+	<itemizedlist>
+	    <listitem>creation complex structure by combinig the elements</listitem>
+	    <listitem>Inheritance and changing mechanism</listitem>
+	    <listitem>Data storing</listitem>
+	    <listitem>Native behaviour</listitem>
+	</itemizedlist>
+	<simpara>So the DES components and even the DES itself can be created as the net of simple elements posessed native behavior.
+	    This structure can be represented as the set of simple agents interacting one to another with the means of the structured net. 
+	    The agent native behavior can be defined in terms of native interfaces the agent implements. These native interfaces can be 
+	    identified by the simple name. Some base interfaces  needs to be introduced and implemnted by 
+	    any agents in order to support the generic element capabilities stated above.</simpara>
+	<simpara>One of the language artefact is the reference to the nodes within the base hierarchy. This referece if defined if form of
+	    URI.</simpara>
+    </sect1>
+
+    <sect1 id="sec_lang"><title>DES definition language</title>
+	<sect2 id="sec_lang_synt"><title>Syntax notation</title>
+	    <simpara>Let's consider the variant of the language that can be used for creation DES components from the elements with capabilities 
+		stated above. The DES definition language can be based on xml. The following xml document definition can be used to support the 
+		elements creation hierarchy and changing (mutation):</simpara>
+	    <programlisting>
+		&lt;!-- Mutation - addition --&gt;
+		&lt;!ELEMENT add (node*, logspec* )&gt;
+
+		&lt;!-- Mutation - change content --&gt;
+		&lt;!ELEMENT cont EMPTY&gt;
+
+		&lt;!-- Mutation - moving --&gt;
+		&lt;!ELEMENT move EMPTY&gt;
+
+		&lt;!-- Mutation - Removing node --&gt;
+		&lt;!ELEMENT rm EMPTY &gt;
+
+		&lt;!-- Mutation - Changing node attribute--&gt;
+		&lt;!ELEMENT change EMPTY &gt;
+
+		&lt;!-- Element of base hierarchy --&gt;
+		&lt;!ELEMENT node (node*, add*, rm*, change*, cont*, move*)* &gt;
+	    </programlisting>
+	    <simpara>It can be noted that from functionality point of view there is big gap between simple element and DES components.
+		So it is required to define the imtermediate layers of components to simplify the DES components structure.</simpara>
+	    <simpara>Let's difine the hierarchy of these intermediate components. The xml notation as well as graphical notation will be used 
+		for convenience. Graphical notation will in form of UML diagram for native parts and multiagent architecture language 
+		specific notation for components built on multiagent architecture.</simpara>
+	</sect2>
+	<sect2 id="sec_lang_base"><title>Base layer</title>
+	    <simpara>Base layer introduces base element behavior. Element as an agent implements interfaces "MCompObserver" and "MMutable"
+	    to support generic element capabilities.</simpara>
+	<figure id="fig_elem"><title>Base layer</title><imageobject> <imagedata fileref="pics/elem.png"/> </imageobject></figure>
+	</sect2>
+	<sect2 id="sec_lang_graph"><title>Graph layer</title>
+	    <simpara>Graph layer introduces such behavior as relation. There are the three major components on this layer: property, vertex and 
+		edge. Property just keeps the data because the base elements doesn't really implement the interface of keeping data but just 
+		introdices it. Vertex is a single agent but edge is the compound including tho properties that contain references to 
+		related vertexes.</simpara>
+	    <figure id="fig_graph"><title>Graph layer class diagram</title>
+		<imageobject> <imagedata fileref="pics/graph.png"/> </imageobject></figure>
+	    <simpara>The relations can can be established vetex to vertex by proper mutation of edges properties.</simpara>
+	    <figure id="fig_graph_rel"><title>Graph layer relations exapmle</title>
+		<imageobject> <imagedata fileref="pics/graph_rel.png"/> </imageobject></figure>
+	</sect2>
+	<sect2 id="sec_lang_syst"><title>System layer</title>
+	    <simpara>System layer introduses connection point and system. Connection point is the component of system thru which the 
+		system is seen outside. Connection point is single agent inherited from vertex and can be considered as a role of the system. 
+		The system can have more that one roles. Since connection point is vertex then it is possible to establish relation
+	    between two connections points, i.e. to "connect" two systems. Connection point as agent implements </simpara>
+	</sect2>
+
+    </sect1>
+
+    <sect1 id="sec_disc"><title>Discussion</title>
+	<simpara>We have presented simple functional languge for transition function in the scope of DES general
+	    languge.  We have shown solutions for the key algorithms of language interpretation.</simpara>
+	<simpara>We outline the important use cases and approaches of how they can be implemented. 
+	    Finally we compare transition functions implemented in C++ and DEST on simple demo application.</simpara>
+	<simpara>We argue therefore that using the proposed language makes DES programs more compact and efficient.</simpara>
+    </sect1>
+
+</article>
