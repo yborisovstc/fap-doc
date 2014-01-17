@@ -9,10 +9,10 @@
 	    <email>yuri.borisov.v@gmail.com</email></author> 
 
 	<abstract>
-	    <simpara>The weak multiagents approach was offered for usage in discrete event system.
+	    <simpara>The multiagents approach was offered for usage in discrete event system.
 		The approach can be used for implementing system variables transition functions and even for
 		implementing of other DES structural components.</simpara>
-	    <simpara>The design and specifics of the implementation is outlined. It is shown that
+	    <simpara>The design and specifics of the implementation of multiagent framework is outlined. It is shown that
 		using this approach creates convenient environment for specifying and running the systems</simpara>
 	</abstract>
 
@@ -161,35 +161,79 @@
 	    <simpara>Let's consider the variant of the language that can be used for creation DES components from the elements with capabilities 
 		stated above. The DES definition language can be based on xml. The following xml document definition can be used to support the 
 		elements creation hierarchy and changing (mutation):</simpara>
-	    <programlisting>
-		&lt;!-- Mutation - addition --&gt;
-		&lt;!ELEMENT add (node*, logspec* )&gt;
 
-		&lt;!-- Mutation - change content --&gt;
-		&lt;!ELEMENT cont EMPTY&gt;
+	    <screen>
+		<![CDATA[
+		<!-- Mutation - addition -->
+		<!ELEMENT add (node*)>
 
-		&lt;!-- Mutation - moving --&gt;
-		&lt;!ELEMENT move EMPTY&gt;
+		<!-- Mutation - change content -->
+		<!ELEMENT cont EMPTY>
 
-		&lt;!-- Mutation - Removing node --&gt;
-		&lt;!ELEMENT rm EMPTY &gt;
+		<!-- Mutation - moving -->
+		<!ELEMENT move EMPTY>
 
-		&lt;!-- Mutation - Changing node attribute--&gt;
-		&lt;!ELEMENT change EMPTY &gt;
+		<!-- Mutation - Removing node -->
+		<!ELEMENT rm EMPTY >
 
-		&lt;!-- Element of base hierarchy --&gt;
-		&lt;!ELEMENT node (node*, add*, rm*, change*, cont*, move*)* &gt;
-	    </programlisting>
+		<!-- Mutation - Changing node attribute-->
+		<!ELEMENT change EMPTY >
+
+		<!-- Element of base hierarchy -->
+		<!ELEMENT node (node*, add*, rm*, change*, cont*, move*)* >
+
+		<!-- Inherited node attributes: parent - parent ref, id - instance name -->
+		<!ATTLIST node id CDATA #IMPLIED parent CDATA #IMPLIED>
+
+		<!-- Adding node attributes: node - URI of mutated node -->
+		<!ATTLIST add node CDATA #IMPLIED>
+		]]>
+	    </screen>
+
 	    <simpara>It can be noted that from functionality point of view there is big gap between simple element and DES components.
 		So it is required to define the imtermediate layers of components to simplify the DES components structure.</simpara>
-	    <simpara>Let's difine the hierarchy of these intermediate components. The xml notation as well as graphical notation will be used 
-		for convenience. Graphical notation will in form of UML diagram for native parts and multiagent architecture language 
-		specific notation for components built on multiagent architecture.</simpara>
+	    <simpara>URI specifies path in base hierarchy with stating also inheritance chain. This is required to not restrict
+		elements of adding components with the same name but different parents. Inheritance chaing is the sequence of names of 
+		inherited nodes. The absolute form 
+		The following form of URI can be used (EBNF notation):
+	    </simpara>
+	    <programlisting>
+		uri = [hier_unit] , {hier_sep , hier_unit} ;
+		hier_sep = "/" ;
+		hier_unit = hier_chain | hier_upper;
+		hier_upper = ".." ;
+		hier_chain = id | ([id] , {inher_sep , id}) ;
+		inher_sep = ":" ;
+		id = patt_any | patt_anywhere | name;
+		patt_any = "*" ;
+		patt_anywhere = "**" ;
+		name = character , {character} ;
+	    </programlisting>
+	    <simpara>The examples are:</simpara>
+	    <programlisting>
+		Vert:Vertex_1 - node named "Vertex_1" inherited from node "Vert"
+	    </programlisting>
 	</sect2>
+    </sect1>
+
+    <sect1 id="sec_arch"><title>Multiagent architecture</title>
+	<simpara>Let's difine the hierarchy of architectural components. The xml notation as well as graphical notation will be used 
+	    for convenience. Graphical notation will in form of UML diagram for native parts and multiagent architecture language 
+	    specific notation for components built on multiagent architecture.</simpara>
 	<sect2 id="sec_lang_base"><title>Base layer</title>
 	    <simpara>Base layer introduces base element behavior. Element as an agent implements interfaces "MCompObserver" and "MMutable"
-	    to support generic element capabilities.</simpara>
-	<figure id="fig_elem"><title>Base layer</title><imageobject> <imagedata fileref="pics/elem.png"/> </imageobject></figure>
+		to support generic element capabilities.</simpara>
+	    <figure id="fig_elem"><title>Base layer</title><imageobject> <imagedata fileref="pics/elem.png"/> </imageobject></figure>
+	    <simpara>To create multi-behavioral objects it is required to implement  mutliple interfaces for that. One way to do that 
+		is to create single agent that implements all required interfaces. The problem here is that the agent is implemented on 
+		native code layer and cannot be changed with the mutation of the structure of base hierarchy. To solve this problem the 
+		approach can be used where the node includes many simple agents instead of inheriting one mutli-interfaces agent. In
+		this case it is possible to add new behavior by mutating the node. There can be some approaches of including agents into the
+		node. One and simplest of them is to have in the node dedicated predefined component that collects all the agents. 
+		To react by the requested behavior base element agent redirects the proper interface requests to the "embedded" agents, 
+		which handles the request by using the structure of the owning node. So the node in this case can be considered as
+		multiple local agents that are "covered" by infrastructe provided by the node. This approach is used in the current
+		implememtation of multiagent framework, the node containing the agents is named "Agents"</simpara>
 	</sect2>
 	<sect2 id="sec_lang_graph"><title>Graph layer</title>
 	    <simpara>Graph layer introduces such behavior as relation. There are the three major components on this layer: property, vertex and 
@@ -198,15 +242,52 @@
 		related vertexes.</simpara>
 	    <figure id="fig_graph"><title>Graph layer class diagram</title>
 		<imageobject> <imagedata fileref="pics/graph.png"/> </imageobject></figure>
-	    <simpara>The relations can can be established vetex to vertex by proper mutation of edges properties.</simpara>
-	    <figure id="fig_graph_rel"><title>Graph layer relations exapmle</title>
-		<imageobject> <imagedata fileref="pics/graph_rel.png"/> </imageobject></figure>
+	    <simpara>The relations can can be established vetex to vertex by proper mutation of edges properties. In the example below
+		there are three vertexes and two relation established via two edges</simpara>
+	    <screen>
+		<![CDATA[
+		<node id="root" parent="Vert">
+		    <node id="Vertex_1" parent="Vert"/>
+		    <node id="Vertex_2" parent="Vert"/>
+		    <node id="Vertex_3" parent="Vert"/>
+		    <node id="Edge_1" parent="Edge"/>
+		    <cont node="Edge:Edge_1/Prop:P2" val="Vert:Vertex_1"/>
+		    <cont node="Edge:Edge_1/Prop:P1" val="Vert:Vertex_2"/>
+		    <node id="Edge_2" parent="Edge"/>
+		    <cont node="Edge:Edge_2/Prop:P2" val="Vert:Vertex_1"/>
+		    <cont node="Edge:Edge_2/Prop:P1" val="Vert:Vertex_3"/>
+		</node>
+		]]>
+	    </screen>
+	    <imageobject> <imagedata fileref="pics/graph_rel.png"/> </imageobject>
 	</sect2>
 	<sect2 id="sec_lang_syst"><title>System layer</title>
 	    <simpara>System layer introduses connection point and system. Connection point is the component of system thru which the 
 		system is seen outside. Connection point is single agent inherited from vertex and can be considered as a role of the system. 
-		The system can have more that one roles. Since connection point is vertex then it is possible to establish relation
-	    between two connections points, i.e. to "connect" two systems. Connection point as agent implements </simpara>
+		For that connection point posesses two properties that defined the interface provided by this connection point owner, and the
+		the interface required for it.  </simpara>
+	    <simpara> The system can play more that one roles. Since connection point is vertex then it is possible to establish relation
+		between two connections points, i.e. to "connect" two systems. Connection point as agent implements also the interface
+		MCompatChecker - compatibility checker, that allows the owned node managing the connection by denying the connection between
+		incompatible connection points. </simpara>
+	    <simpara>From systems relations point of view, connection point is just proxy allowing "colored" or "typed" relations. This
+		is the mechanism of using multi-roled and multi-behavioral systems.</simpara>
+	    <simpara>System is implemened as single agent inherited from Vert agent and reimplemented MCompObserver interface in order
+		to customize the rules of creating relations between owned systems. For instance the system allows connecting included
+		systems only via their connection points and only if the connection points are compatible. In the visual notation
+	    the provided interface is noted as "P:", required as "R:"</simpara>
+	    <imageobject> <imagedata fileref="pics/syst_cls.png"/> </imageobject>
+	    <simpara></simpara>
+	    <imageobject> <imagedata fileref="pics/syst_str.png"/> </imageobject>
+	    <simpara>The properties witin connection point are named "Provided" and "Required" and stored names of interfaces that
+		system provides and required for playing the role connection point is representing. The connection points are 
+		considered as compatible only if provided interface of connectin point coinsides with required interface of the pair.
+		In the examle below the system "John" plays role "Teacher" and the system "Mary" - role "Student". They can be 
+	    connected because the connection points are compliant thus compatible.</simpara>
+	    <imageobject> <imagedata fileref="pics/syst_example_1.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/syst_example_1_john.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/syst_example_1_mary.png"/> </imageobject>
+
 	</sect2>
 
     </sect1>
