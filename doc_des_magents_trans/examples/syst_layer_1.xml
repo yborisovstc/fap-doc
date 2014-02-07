@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<node id="Root" parent="Elem">
+  <node id="sysmod" parent="file:/usr/share/grayb/modules/syst.xml#"/>
+  <node id="sysroot" parent="Syst">
+    <node id="Teacher" parent="Syst">
+      <node id="Teacher" parent="/Elem:Root/SysComps:sysmod/ConnPointBase:ConnPoint">
+        <cont node="Prop:Provided" val="Teacher"/>
+        <cont node="Prop:Required" val="Student"/>
+      </node>
+    </node>
+    <node id="Student" parent="Syst">
+      <node id="Student" parent="/Elem:Root/SysComps:sysmod/ConnPointBase:ConnPoint">
+        <cont node="Prop:Provided" val="Student"/>
+        <cont node="Prop:Required" val="Teacher"/>
+      </node>
+    </node>
+    <change node="Teacher" attr="id" val="John"/>
+    <change node="Student" attr="id" val="Mary"/>
+    <node id="859593294" parent="Edge"/>
+    <cont node="Edge:859593294/Prop:P2" val="Syst:John/ConnPoint:Teacher"/>
+    <cont node="Edge:859593294/Prop:P1" val="Syst:Mary/ConnPoint:Student"/>
+  </node>
+</node>
