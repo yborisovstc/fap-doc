@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article SYSTEM "/usr/share/sgml/docbook/dtd/xml/4.5/docbookx.dtd">
+
+
+<article> <title>Using incremental mutation process for systems modeling</title>
+    <articleinfo>
+	<author><personname><firstname>Yuri</firstname><surname>Borisov</surname></personname>
+	    <email>yuri.borisov.v@gmail.com</email></author> 
+
+	<abstract>
+	    <simpara>The incremental mutation approach was offered for creating of systems models.
+		The approach can be used for creating system from given elementary structural elements by
+		applying of series of mutation from specified mutations set.</simpara>
+	    <simpara>The policies of securing of system consistency are considering. 
+		Also the limitation of the method are analysed and clarified.</simpara>
+	</abstract>
+
+	<releaseinfo>Ver.0.01 at 23-Jan-2014</releaseinfo>
+
+	<revhistory>
+	    <revision> <revnumber>0.01</revnumber> <date>23-Jan-2014</date> <authorinitials>Yuri Borisov</authorinitials>
+		<revremark>Initial version</revremark> </revision>
+	</revhistory>
+    </articleinfo>
+
+    <bibliolist> <title>References</title>
+
+	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
+	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
+	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
+
+	<biblioentry id="ref_cass_intr_des"> <abbrev>CASS_INTR_DES</abbrev>
+	    <productname><ulink url="http://books.tr200.ru/v.php?id=242379"/></productname>
+	    <title>Christos Cassandras, Stefane Lafortune. Introduction to Discrete Event System. </title> </biblioentry>
+
+	<biblioentry id="ref_ybor_using_des"> <abbrev>YBOR_USING_DES_</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZWlNiWTNPQmhrOUk/edit?usp=sharing"/></productname>
+	    <title>Y.Borisov, A.Lemekhova. Using of Synchronous Discrete Time System paradigm in software development</title> </biblioentry>
+
+	<biblioentry id="ref_yb_embtr"> <abbrev>YB_EMBTR</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZV3NLZHlzc2lHa0k/edit?usp=sharing"/></productname>
+	    <title>Y.Borisov. Using embedded transtion in Discrete Event System language interpreter</title> </biblioentry>
+
+	<biblioentry id="ref_yb_deside1"> <abbrev>YB_DESIDE1</abbrev>
+	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZVjdZX0U4Tm0yeUU/edit?usp=sharing"/></productname>
+	    <title>Yuri Borisov. Simple IDE for Discrete Events Systems framework.</title> </biblioentry>
+
+
+	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap"/></productname>
+	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
+
+
+	<biblioentry id="ref_fap_demo_snails"> <abbrev>FAP_DEMO_SNAILS</abbrev>
+	    <productname><ulink url="http://gitorious.org/fap/fap-snails"/></productname>
+	    <title><xref linkend="gls_fap"/> demo application "Snails" git repository</title> </biblioentry>
+    </bibliolist>
+
+
+    <glossary> <title>Glossary</title> 
+	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
+	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
+		    Ref <xref linkend="ref_wiki_ds"/> for base info.</para> <glossseealso otherterm="gls_dtds"/></glossdef> </glossentry>
+
+	<glossentry id="gls_dds"><glossterm>DDS</glossterm> <acronym>DDS</acronym>
+	    <glossdef> <simpara>Discrete Dynamic System. One more term for <xref linkend="gls_dtds1"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_des"><glossterm>DES</glossterm> <acronym>DES</acronym>
+	    <glossdef> <simpara>Discrete Event System - a class of <xref linkend="gls_dtds"/>,  discrete state, event driven dynamic system.</simpara> 
+		<simpara>Ref <xref linkend="ref_cass_intr_des"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_desl"><glossterm>DESL</glossterm> <acronym>DESL</acronym>
+	    <glossdef> <simpara>Discrete Event System general language - descirbes the structure of the system.
+		    Ref <xref linkend="ref_ybor_using_des"/>, <xref linkend="ref_yb_deside1"/> 
+		    for details and examples.  </simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_dest"><glossterm>DEST</glossterm> <acronym>DEST</acronym>
+	    <glossdef> <simpara>Discrete Event System transition language - functional language for variable transition 
+		    in <xref linkend="gls_des"/> framework <xref linkend="gls_fap"/></simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_finite_automata"><glossterm>FSA</glossterm> <acronym>FSA</acronym>
+	    <glossdef> <simpara>Finite State automata</simpara> </glossdef> </glossentry>
+
+	<glossentry id="gls_fap"><glossterm>FAP</glossterm> <acronym>FAP</acronym>
+	    <glossdef> <simpara>Finite Automata Paradigm framework. The framework for SW development with using of 
+		    <xref linkend="gls_finite_automata"/>paradigm.</simpara> 
+		<simpara>Ref <xref linkend="ref_fap_git"/> for source code repository</simpara></glossdef> </glossentry>
+    </glossary>
+
+    <sect1 id="sec_abstract"><title>Abstract </title>
+    </sect1>
+
+    <sect1 id="sec_intro"><title>Introduction</title>
+    </sect1>
+
+    <sect1 id="sec_base"><title>Basis</title>
+	<sect2 id="sec_base_reftypes"><title>Types of references in mutations</title>
+	    <simpara>There can be the following references in mutations:</simpara>
+	    <itemizedlist>
+		<listitem>Parent. This type references are in node creation mutation and pointed to the node that is to be parent of node being created</listitem>
+		<listitem>Object. This type references pointed to the nodes that are to be mutated.</listitem>
+		<listitem>Parameter. This type references are used in content change mutation.</listitem>
+	    </itemizedlist>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_principles"><title>Basic principles</title>
+	<sect2 id="sec_principles_incr"><title>Incrementation - Chromosome can be changed only by appending mutation</title>
+	    <simpara>Refrasing the principle is "it is not allowed to change the past". The currents chromo is the "documented" history of system creation,
+		so its change is not allowed.</simpara>
+	    <simpara>This means that any mutation in the chromosome cannot be changed, moved or removed. So any mutation just grows chromosome but not destroys.
+	    </simpara>
+	</sect2>
+	<sect2><title>Chromosome as subject and system as object of creation</title>
+	    <simpara>Chromosome is the instruction of how to change the system. So system here is object of changed whereas chromosome plus creator acts as subject.</simpara>
+	    <simpara>This means that the references in chromo (to object node, to parent etc.) are the references within system but not within chromo itserf.</simpara>
+	</sect2>
+	<sect2><title>Mutations references of types other than -parent- can point only to onwned node</title>
+	    <simpara>The references are limited by owner context. Only parent-child relations can be global.</simpara>
+	</sect2>
+	<sect2><title>Reverse creation chromo from system.</title>
+	    <simpara>There shall be allowed to create chromo from run-time system model as reverse process. This reverse process melt all the mutation applied to the system and
+	  creates purified chromo. </simpara>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_lim"><title>Limitations</title>
+	<sect2><title>A mutation of node that has dependencies can only be applied after the dependency with greatest rank</title>
+	    <simpara>Node dependencies are mutations and this mutation owning chromo node. The dependencies are defined as :</simpara>
+	    <itemizedlist>
+		<listitem>Mutation referred to the node</listitem>
+		<listitem>Mutation referred to components of the node.</listitem>
+	    </itemizedlist>
+	</sect2>
+	<sect2><title>Transposition of nodes within chromo is not allowed</title>
+	    <simpara>This is not allowed because of contradiction to principle <xref linkend="sec_principles_incr"/>. Any transposition will change the current chromo that
+		is disabled by the principle.</simpara>
+	    <simpara>In some earlier implementation of incremental mutaion scheme the transposition of two modes was used to fix the mistake of creator 
+		forgotten adding fundamental nodes at the beginning of chromosome. In this case the system is just failed - the creation cannot be continued.
+		The example of this case is as: creator creates nodes N_A and N_B in root node N_R and mutated them with the series of mutation, creating internal nodes
+		for instance. Then the user is going to add into N_A and N_B some more nodes that inherit parent from external module. But now the creator realizes that
+		he forgot include the module into root node N_R. The solution now is to include the module to node N_A and then creates the new childs to N_A and N_B.
+		But obviously this makes the structure of the system a bit messy. More nice solution would be to have the module in beginning of root node and then use
+		its nodes as parents in equitable manner from other parts of system.</simpara>
+	    <simpara>What would be the solution here to fix this kinds of creator mistakes? One of the solution is to use "templates" for creation of system. Such templates
+		should to have the first nodes dedicated for fundamental and important parents. Another way is to leave the mistaken system and creates new one. The creator
+		can use "moving" nodes from old system to new in order to reuse the old system structure.</simpara>
+	</sect2>
+    </sect1>
+
+    <sect1><title>Use-cases</title>
+	<sect2><title>New node created from parent that was mutated via outer mutation - the outer mutation doesn't not get to the child</title>
+	    <simpara>Node N_A in owner node N_O is mutated by outer mutation M_1. Using outer mutation can be caused by existing some dependencies to node N_A that
+		makes local mutaion unsafe (i.e. causing to system inconsistency). Then new mutation of N_O are applied for creating node N_B as the child of 
+		node N_B. The mutation M_1 will not get to the child N_B because chromosome of N_B doesn't containg M_1. So we can say that M_1 doesn't affect N_B genotype but
+		phenotype only.</simpara>
+	</sect2>
+    </sect1>
+
+    <sect1 id="sec_disc"><title>Discussion</title>
+	<simpara>We have introduced Discrete Event System modelling solution basing on using of multiagent approach. Layer based
+	    architecture was proposed as the structural base of the solution. Main principles of building the parts of layers were 
+	    also clarified.</simpara>
+	<simpara>We outline the implementation of the layers and show the possibility of covering full functionality of layers by
+	    using the approach. Some exampes were introduced to clarify the particular use cases when creating the models.</simpara>
+	<simpara>We shown that the proposed approach provides the unified language and maens of creating both the structure of DES 
+	    and transition functions. So it was proven therefore that using the proposed approach allows to create 
+	    the models of wide range of complexity.</simpara>
+    </sect1>
+
+</article>
