@@ -98,12 +98,24 @@
     </sect1>
 
     <sect1 id="sec_base"><title>Basis</title>
-	<sect2 id="sec_base_reftypes"><title>Types of references in mutations</title>
-	    <simpara>There can be the following references in mutations:</simpara>
+	<sect2 id="sec_base_deptypes"><title>Types of dependencies in mutations</title>
+	    <simpara>Mutation depends one on another. This dependency is created by pair of relation via model. Let's  consider mutations Ma and Mb. Both mutations 
+		relates to the same node N in model, the realtion can be designated as (Ma,N) and (Mb,N). These relations in turn create transitivelly realtion (Ma, Mb). The
+		two types of relation can be distinquished: mutation to be applied to node, and node to already applied mutation. These types of realtions can be designated as Ri (initiated) and
+	    Ra (applied mutation).</simpara>
+	    <simpara>There can be the following kinds of relations (dependencies) of applied mutaions:</simpara>
 	    <itemizedlist>
-		<listitem>Parent. This type references are in node creation mutation and pointed to the node that is to be parent of node being created</listitem>
+		<listitem>Parent. This relations are of node creation mutation and pointed to the node that is to be parent of node being created</listitem>
 		<listitem>Object. This type references pointed to the nodes that are to be mutated.</listitem>
-		<listitem>Parameter. This type references are used in content change mutation.</listitem>
+		<listitem>References. This type references are used in content change mutation, where the content is pointing to some node.</listitem>
+	    </itemizedlist>
+	    <simpara>The Ri relations also can be classified as:</simpara>
+	    <itemizedlist>
+		<listitem>Creation - mutation creates node</listitem>
+		<listitem>Addition - mutation adds sub-nodes to node</listitem>
+		<listitem>Removement - mutation removes node</listitem>
+		<listitem>Renaming - mutation renames node</listitem>
+		<listitem>Change - mutation change content of node</listitem>
 	    </itemizedlist>
 	</sect2>
     </sect1>
@@ -149,6 +161,19 @@
 	    <simpara>What would be the solution here to fix this kinds of creator mistakes? One of the solution is to use "templates" for creation of system. Such templates
 		should to have the first nodes dedicated for fundamental and important parents. Another way is to leave the mistaken system and creates new one. The creator
 		can use "moving" nodes from old system to new in order to reuse the old system structure.</simpara>
+	</sect2>
+    </sect1>
+
+    <sect1><title>Checking mutation safety and getting the node for making mutation safe</title>
+	<simpara>TODO To describe graph based model of dependencies and algorithm of checking safety and searching the node to get mutation safe.</simpara>
+    </sect1>
+
+    <sect1 id="sec_rollback"><title>Rollback of mutations</title>
+	<sect2><title>Introduction</title>>
+	    <simpara>Undo of changes made is important mechanism of system creation. It allowes to refuse the part of creation that is realized as incorrect and "return" to 
+	    the point of creation from what the correct creation can be continued.</simpara>
+	<simpara>But what could be "part" of creation? As it was seen, in hierarchical system the component of system (e.g. node) is self-dependent sub-system. So the creator
+	may wish to rollback the mutation only for local sub-system. On the other hand there is the sequence of mutation ordered nativelly, i.e. by the time of applying.</simpara>
 	</sect2>
     </sect1>
 
