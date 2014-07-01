@@ -2,5 +2,7 @@
 *.swo
 *.html
 *.pdf
+*.orig
+*.fo
 
 

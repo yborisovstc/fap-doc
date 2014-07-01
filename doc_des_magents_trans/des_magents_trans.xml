@@ -223,7 +223,8 @@
 	<sect2 id="sec_lang_base"><title>Base layer</title>
 	    <simpara>Base layer introduces base element behavior. Element as an agent implements interfaces "MCompObserver" and "MMutable"
 		to support generic element capabilities.</simpara>
-	    <figure id="fig_elem"><title>Base layer</title><imageobject> <imagedata fileref="pics/elem.png"/> </imageobject></figure>
+	    <figure id="fig_elem"><title>Base layer</title>
+		<imageobject> <imagedata fileref="pics/elem.png" scalefit="1" width="100%" /> </imageobject></figure>
 	    <simpara>To create multi-behavioral objects it is required to implement  mutliple interfaces for that. One way to do that 
 		is to create single agent that implements all required interfaces. The problem here is that the agent is implemented on 
 		native code layer and cannot be changed with the mutation of the structure of base hierarchy. To solve this problem the 
@@ -246,7 +247,7 @@
 		introdices it. Vertex is a single agent but edge is the compound including tho properties that contain references to 
 		related vertexes.</simpara>
 	    <figure id="fig_graph"><title>Graph layer class diagram</title>
-		<imageobject> <imagedata fileref="pics/graph.png"/> </imageobject></figure>
+		<imageobject> <imagedata fileref="pics/graph.png" scalefit="1" width="100%" /> </imageobject></figure>
 	    <simpara>The relations can can be established vetex to vertex by proper mutation of edges properties. In the example below
 		there are three vertexes and two relation established via two edges</simpara>
 	    <screen>
@@ -264,7 +265,7 @@
 		</node>
 		]]>
 	    </screen>
-	    <imageobject> <imagedata fileref="pics/graph_rel.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/graph_rel.png" scalefit="1" width="50%" /> </imageobject>
 	</sect2>
 
 	<sect2 id="sec_arch_syst"><title>System layer</title>
@@ -282,9 +283,9 @@
 		to customize the rules of creating relations between owned systems. For instance the system allows connecting included
 		systems only via their connection points and only if the connection points are compatible. In the visual notation
 	    the provided interface is noted as "P:", required as "R:"</simpara>
-	    <imageobject> <imagedata fileref="pics/syst_cls.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/syst_cls.png" scalefit="1" width="100%" /> </imageobject>
 	    <simpara></simpara>
-	    <imageobject> <imagedata fileref="pics/syst_str.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/syst_str.png" scalefit="1" width="50%" /> </imageobject>
 	    <simpara>The properties witin connection point are named "Provided" and "Required" and stored names of interfaces that
 		system provides and required for playing the role connection point is representing. The connection points are 
 		considered as compatible only if provided interface of connecting point coinsides with required interface of the pair.
@@ -294,14 +295,15 @@
 		propagate the request to system which then redirect the request to the embedded agents. In result the client will get
 	   the instance of provided interface. </simpara>
 	    <informaltable frame="none">
-		<tgroup cols='5' align='left' colsep='0' rowsep='0'>
+		<tgroup cols='3' align='left' colsep='0' rowsep='0'>
 		    <tbody>
 			<row> 
-			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1.png"/> </imageobject> </entry> 
-			    <entry><programlisting>    </programlisting></entry>
-			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1_john.png"/> </imageobject> </entry> 
-			    <entry><programlisting>    </programlisting></entry>
-			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1_mary.png"/> </imageobject> </entry> 
+			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1.png" scalefit="1" width="100%" /> 
+			    </imageobject> </entry> 
+			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1_john.png" scalefit="1" width="100%" /> 
+			    </imageobject> </entry> 
+			    <entry> <imageobject> <imagedata fileref="pics/syst_example_1_mary.png" scalefit="1" width="100%" /> 
+			    </imageobject> </entry> 
 			</row> 
 		    </tbody>
 		</tgroup>
@@ -321,29 +323,29 @@
 	<sect2 id="sec_arch_data"><title>Data layer</title>
 	    <simpara>Data layer represents the simple data model. Data is modelled as incapsulated system with specific agent embedded.
 		Below is data agent structure outlined for integer type of data.</simpara>
-	    <imageobject> <imagedata fileref="pics/data_agt_str.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/data_agt_str.png" scalefit="1" width="100%" /> </imageobject>
 	    <simpara>The agent implements a series of interfaces supporting manipulation of data, so it can provide the particular interface 
 		requesting from outside the data system. This allows to use this "multipurpose" agent in different data models.</simpara>
 	    <simpara>Below is outlined the structure of data system named "DataSInt" that repesents "setter" role for controlling and 
 	   "getter+notifier" role for using data. </simpara>
-	    <imageobject> <imagedata fileref="pics/data_sample_mdl.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/data_sample_mdl.png" scalefit="1" width="100%" /> </imageobject>
 	</sect2>
 
 	<sect2 id="sec_arch_func"><title>Functions layer</title>
 	    <simpara>Function layer represents regular functions. The typical function is implemented as incapsulated system with 
 		connection point for function argument roles and function result role. The function agent normally gets the arguments 
 	    values from the arguments connection point, perform the proper calculation and notifies of the reslult.</simpara>
-	    <imageobject> <imagedata fileref="pics/func_agt_cls.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/func_agt_cls.png" scalefit="1" width="100%" /> </imageobject>
 	    <simpara>The scheme below shows the model of function system for integer subtraction. 
 		The system repesents "argument receivers" role as "inputs" of the function (connection points "InpP", "InpN" 
 		for positive and negative arguments correspondigly), and "getter+notifier" role for the result obtaining. </simpara>
-	    <imageobject> <imagedata fileref="pics/func_sample_mdl.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/func_sample_mdl.png" scalefit="1" width="50%" /> </imageobject>
 	    <simpara>Complex function can be created by proper connected simple functions. The example below is for double incremetation
 		function. On the picture there is initial integer data named "DataS_Int_1" equals 34. Its "output" is connected to first
 		incrementor "Incr" "input". Output of first incrementor is in turn connected to input of second incrementer "Incr2".
 		The result of this double incremeting function is kept in result data "ResData". There is also one function named 
 		"Result" that just gets the result from second incrementor and puts it to result data. </simpara>
-	    <imageobject> <imagedata fileref="pics/func_example_incr.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/func_example_incr.png" scalefit="1" width="50%" /> </imageobject>
 	</sect2>
 
 	<sect2 id="sec_arch_des"><title>DES layer</title>
@@ -353,7 +355,7 @@
 		function. These agents difference from the functions agents in functions layer is that the transition agents supports only
 		getter/setter interfaces. Events system doesn't require rich behavior of the transition agent like observing the argument, 
 		but only calculation on demand.</simpara>
-	    <imageobject> <imagedata fileref="pics/des_agt_cls.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/des_agt_cls.png" scalefit="1" width="100%" /> </imageobject>
 	    <simpara>The picture below shows the structure of integer state base of event system. The state includes prepared and confirmed data,
 		state agent in agents containter, connection point "Sync" representing "Syncable" role, connection point "Out" representing
 		state output role and default connection point for input. In the input and output connection points the socket "Int" is
@@ -361,17 +363,19 @@
 		The derived from the base state can be customized in the 
 		following way: transition can be added with connecting its output to prepared data input, state inputs can be 
 		added and connecting to the transition function arguments.</simpara>
-	    <imageobject> <imagedata fileref="pics/des_state_str.png"/> </imageobject>
+	    <imageobject> <imagedata fileref="pics/des_state_str.png" scalefit="1" width="50%" /> </imageobject>
 	    <simpara>Event system base structure is very simple so not illustrated by a schema. The system includes DES agent and
 		one connection points repesenting "Syncable" role. The derived system can be customizing by adding syb-system or 
 		states. Both play "Syncable" role so the function of DES agent is just to propagate syncing event to its components.</simpara>
 	    <simpara>Below the example of simple DES is shown. It contaings only one state "State1" which transitoin is just increment
 		of input. The state is cycled so the state is constantly refreshing its data.</simpara>
 	    <informaltable frame="none">
-		<tgroup cols='3' align='left' colsep='0' rowsep='0'> <tbody> <row> 
-			    <entry> <imageobject> <imagedata fileref="pics/des_example_incr_1.png"/> </imageobject> </entry> 
-			    <entry><programlisting>    </programlisting></entry>
-			    <entry> <imageobject> <imagedata fileref="pics/des_example_incr_2.png"/> </imageobject> </entry> 
+		<tgroup cols='2' align='left' colsep='0' rowsep='0'> <tbody> <row> 
+			    <entry> <imageobject> <imagedata fileref="pics/des_example_incr_1.png" scalefit="1" width="100%" /> 
+			    </imageobject> </entry> 
+			    <entry> <imageobject> 
+				    <imagedata fileref="pics/des_example_incr_2.png" scalefit="1" width="100%" /> 
+				</imageobject> </entry> 
 		</row> </tbody> </tgroup>
 	    </informaltable>
 	</sect2>
