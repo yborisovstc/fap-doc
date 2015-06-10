@@ -1,0 +1,40 @@
+
+<sect1><title>Refs</title>
+    <itemizedlist>
+	<listitem><ulink url="http://en.wikipedia.org/wiki/Actor_model"/></listitem>
+	<listitem><ulink url="http://http://ru.wikipedia.org/wiki/%D0%9C%D0%BD%D0%BE%D0%B3%D0%BE%D0%B0%D0%B3%D0%B5%D0%BD%D1%82%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0"/></listitem>
+	<listitem><ulink url="http://en.wikipedia.org/wiki/Multi-agent_system"/></listitem>
+	<listitem><ulink url="http://en.wikipedia.org/wiki/Software_agent"/></listitem>
+    </itemizedlist>
+</sect1>
+<sect1><title>Multiagents approach</title>
+    <simpara>Multiagent approach can be considered as creation complex system by inter-connecting many simple elements (agents). 
+	The agents are self-dependent elements, exhibiting some simple behavior, and posessing some interface for interacting to the 
+	environment. Any set of agents doesn't provide the required complex behavior itself, but only because of the network of connections 
+	between agents. So the main source of system behaviour is the network. The network itself depends on the agents, e.g. on 
+    kind of agents interface or mechanism of interacting. </simpara>
+</sect1>
+<sect1><title>Mutations model</title>
+</sect1>
+<sect1><title>Squeezing of mutations</title>
+    <simpara>System got completed via the series of mutations can be represented by these mutations sequence, i.e. systems
+	chromosome. Often there are obsolete mutations in the chromosome, so cleaning up these unnececcary mutation could
+   "unweight" the system. </simpara>
+   <simpara>There are fundamental limitation of using "reverse engineering" approach. Each created node is the 
+       result of mix of nodes chromo and "external" mutaions, i.e. changes that applied to the node from owning systems. 
+       The first one is "genotype" and transfer to nodes childs. The
+       second one can be considered as "phenotype" so doesnt affect nodes heirs. The problem here is that having created node we
+       cannot differ chromo from external mutations.
+   </simpara>
+   <simpara>So this implies that we can use only "direct" squeezing, i.e. the mutations in chromo. Let's consider mutations by types.</simpara>
+   <simpara>-Rm-. For local -rm- the squeezing is simple - just remove those -node- muts that are against attached, marked 
+       as removed, and not having childs system comps.</simpara>
+   <simpara>The question is how to find the node referred from the given mutation? Currently one way relation mechanism is 
+       implemented: from model to chromo. With usage of this mechanism we can perform search of node that is referred from given mut.
+       This approach is not effective but it should work. The better would be to keep relations from mutaions to model.</simpara>
+   <simpara>Let's assume that there are mechinisms of both direction relations: chromo to model and model to chromo. Then
+       the following approach of squeeazing can be proposed. The procedure starts from chromos root. Then get the first mutation, "source"
+       of merge, and decide if it eligible to be merged. For instance -node- cannot be merged. If the mutation can be merged, find the 
+       earlier mutaion to which to merge - "target" of merge. Then find all the mutations "between" source and target. 
+   All these mutations need to be corrected to keep consistency.</simpara>
+</sect1>

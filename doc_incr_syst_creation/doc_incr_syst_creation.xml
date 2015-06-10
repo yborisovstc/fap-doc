@@ -95,19 +95,40 @@
     </sect1>
 
     <sect1 id="sec_intro"><title>Introduction</title>
+	<simpara>Main idea of incremental mutation is that it allows creating the model step by step via small
+	    changes (mutations). On each step the creator makes the small change into the current state of the model.
+	    It is simple to ensure that the change is safe. This is because the current state of the model is verified and
+	    the change itself can be verified also. So such approach allows to create the model via one phase, comparing
+	    to approach where at lease two phases are required: 1 - creating the model description, 2 - creating the 
+	    model by the description, running the model and verifying it.
+	    <footnote><simpara>This doesn't mean that the mutation cannot breake the model anyway. For instance the mutation
+		    of delaying node referenced by another node will cause the model inconsistency. The statement was that 
+		    the mutation is controlled and can be rolled back if being not accepted.</simpara></footnote>
+	</simpara>
+	<simpara>Comparing incremantal mutation approach and arbitrary mutation approach we can see that for the first 
+	    approach the subject of change is the model itself,  while for the second option the subject is the model 
+	    description. To be more specific even the incremental mutation approach has the model description as the 
+	    subject, but the change of the description is elementary - just adding one record.</simpara>
+	<simpara>The mutation in case of IM can be specified basing on the current model status, i.e. directly operating to
+	    the model.</simpara>
     </sect1>
 
     <sect1 id="sec_base"><title>Basis</title>
 	<sect2 id="sec_base_deptypes"><title>Types of dependencies in mutations</title>
-	    <simpara>Mutation depends one on another. This dependency is created by pair of relation via model. Let's  consider mutations Ma and Mb. Both mutations 
-		relates to the same node N in model, the realtion can be designated as (Ma,N) and (Mb,N). These relations in turn create transitivelly realtion (Ma, Mb). The
-		two types of relation can be distinquished: mutation to be applied to node, and node to already applied mutation. These types of realtions can be designated as Ri (initiated) and
-	    Ra (applied mutation).</simpara>
+	    <simpara>Mutation depends one on another. This dependency is created by pair of relation via model. 
+		Let's  consider mutations Ma and Mb. Both mutations 
+		relates to the same node N in model, the realtion can be designated as (Ma,N) and (Mb,N). 
+		These relations in turn create transitivelly realtion (Ma, Mb). The
+		two types of relation can be distinquished: mutation to be applied to node, and node to already 
+		applied mutation. These types of realtions can be designated as Ri (initiated) and
+		Ra (applied mutation).</simpara>
 	    <simpara>There can be the following kinds of relations (dependencies) of applied mutaions:</simpara>
 	    <itemizedlist>
-		<listitem>Parent. This relations are of node creation mutation and pointed to the node that is to be parent of node being created</listitem>
+		<listitem>Parent. This relations are of node creation mutation and pointed to the node that is to 
+		    be parent of node being created</listitem>
 		<listitem>Object. This type references pointed to the nodes that are to be mutated.</listitem>
-		<listitem>References. This type references are used in content change mutation, where the content is pointing to some node.</listitem>
+		<listitem>References. This type references are used in content change mutation, where the content 
+		    is pointing to some node.</listitem>
 	    </itemizedlist>
 	    <simpara>The Ri relations also can be classified as:</simpara>
 	    <itemizedlist>
@@ -122,21 +143,23 @@
 
     <sect1 id="sec_principles"><title>Basic principles</title>
 	<sect2 id="sec_principles_incr"><title>Incrementation - Chromosome can be changed only by appending mutation</title>
-	    <simpara>Refrasing the principle is "it is not allowed to change the past". The currents chromo is the "documented" history of system creation,
-		so its change is not allowed.</simpara>
-	    <simpara>This means that any mutation in the chromosome cannot be changed, moved or removed. So any mutation just grows chromosome but not destroys.
-	    </simpara>
+	    <simpara>Refrasing the principle is "it is not allowed to change the past". The currents chromo is the "documented" 
+		history of system creation, so its change is not allowed.</simpara>
+	    <simpara>This means that any mutation in the chromosome cannot be changed, moved or removed. 
+		So any mutation just grows chromosome but not destroys.  </simpara>
 	</sect2>
 	<sect2><title>Chromosome as subject and system as object of creation</title>
-	    <simpara>Chromosome is the instruction of how to change the system. So system here is object of changed whereas chromosome plus creator acts as subject.</simpara>
-	    <simpara>This means that the references in chromo (to object node, to parent etc.) are the references within system but not within chromo itserf.</simpara>
+	    <simpara>Chromosome is the instruction of how to change the system. So system here is object of changed whereas 
+		chromosome plus creator acts as subject.</simpara>
+	    <simpara>This means that the references in chromo (to object node, to parent etc.) are the references within system 
+		but not within chromo itserf.</simpara>
 	</sect2>
 	<sect2><title>Mutations references of types other than -parent- can point only to onwned node</title>
 	    <simpara>The references are limited by owner context. Only parent-child relations can be global.</simpara>
 	</sect2>
 	<sect2><title>Reverse creation chromo from system.</title>
-	    <simpara>There shall be allowed to create chromo from run-time system model as reverse process. This reverse process melt all the mutation applied to the system and
-	  creates purified chromo. </simpara>
+	    <simpara>There shall be allowed to create chromo from run-time system model as reverse process. 
+		This reverse process melt all the mutation applied to the system and creates purified chromo. </simpara>
 	</sect2>
     </sect1>
 
@@ -148,18 +171,21 @@
 		<listitem>Mutation referred to components of the node.</listitem>
 	    </itemizedlist>
 	</sect2>
-	<sect2><title>Transposition of nodes within chromo is not allowed</title>
-	    <simpara>This is not allowed because of contradiction to principle <xref linkend="sec_principles_incr"/>. Any transposition will change the current chromo that
-		is disabled by the principle.</simpara>
-	    <simpara>In some earlier implementation of incremental mutaion scheme the transposition of two modes was used to fix the mistake of creator 
-		forgotten adding fundamental nodes at the beginning of chromosome. In this case the system is just failed - the creation cannot be continued.
-		The example of this case is as: creator creates nodes N_A and N_B in root node N_R and mutated them with the series of mutation, creating internal nodes
-		for instance. Then the user is going to add into N_A and N_B some more nodes that inherit parent from external module. But now the creator realizes that
-		he forgot include the module into root node N_R. The solution now is to include the module to node N_A and then creates the new childs to N_A and N_B.
-		But obviously this makes the structure of the system a bit messy. More nice solution would be to have the module in beginning of root node and then use
-		its nodes as parents in equitable manner from other parts of system.</simpara>
-	    <simpara>What would be the solution here to fix this kinds of creator mistakes? One of the solution is to use "templates" for creation of system. Such templates
-		should to have the first nodes dedicated for fundamental and important parents. Another way is to leave the mistaken system and creates new one. The creator
+	<sect2 id="sec_lim_transp"><title>Transposition of nodes within chromo is not allowed</title>
+	    <simpara>This is not allowed because of contradiction to principle <xref linkend="sec_principles_incr"/>. 
+		Any transposition will change the current chromo that is disabled by the principle.</simpara>
+	    <simpara>In some earlier implementation of incremental mutaion scheme the transposition of two modes was used 
+		to fix the mistake of creator forgotten adding fundamental nodes at the beginning of chromosome. 
+		In this case the system is just failed - the creation cannot be continued.  The example of this case is as: 
+		creator creates nodes N_A and N_B in root node N_R and mutated them with the series of mutation, creating internal nodes
+		for instance. Then the user is going to add into N_A and N_B some more nodes that inherit parent from external module. 
+		But now the creator realizes that he forgot include the module into root node N_R. The solution now is to include the 
+		module to node N_A and then creates the new childs to N_A and N_B.
+		But obviously this makes the structure of the system a bit messy. More nice solution would be to have the module in 
+		beginning of root node and then use its nodes as parents in equitable manner from other parts of system.</simpara>
+	    <simpara>What would be the solution here to fix this kinds of creator mistakes? One of the solution is to use "templates" 
+		for creation of system. Such templates should to have the first nodes dedicated for fundamental and important parents. 
+		Another way is to leave the mistaken system and creates new one. The creator
 		can use "moving" nodes from old system to new in order to reuse the old system structure.</simpara>
 	</sect2>
     </sect1>
@@ -170,10 +196,13 @@
 
     <sect1 id="sec_rollback"><title>Rollback of mutations</title>
 	<sect2><title>Introduction</title>>
-	    <simpara>Undo of changes made is important mechanism of system creation. It allowes to refuse the part of creation that is realized as incorrect and "return" to 
-	    the point of creation from what the correct creation can be continued.</simpara>
-	<simpara>But what could be "part" of creation? As it was seen, in hierarchical system the component of system (e.g. node) is self-dependent sub-system. So the creator
-	may wish to rollback the mutation only for local sub-system. On the other hand there is the sequence of mutation ordered nativelly, i.e. by the time of applying.</simpara>
+	    <simpara>Undo of changes made is important mechanism of system creation. 
+		It allowes to refuse the part of creation that is realized as incorrect and "return" to 
+		the point of creation from what the correct creation can be continued.</simpara>
+	    <simpara>But what could be "part" of creation? As it was seen, in hierarchical system the component 
+		of system (e.g. node) is self-dependent sub-system. So the creator
+		may wish to rollback the mutation only for local sub-system. On the other hand there is the sequence of 
+		mutation ordered nativelly, i.e. by the time of applying.</simpara>
 	</sect2>
     </sect1>
 

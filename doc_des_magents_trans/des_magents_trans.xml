@@ -25,7 +25,6 @@
     </articleinfo>
 
     <bibliolist> <title>References</title>
-
 	<biblioentry id="ref_wiki_ds"> <abbrev>WIKI_DS</abbrev>
 	    <productname><ulink url="http://en.wikipedia.org/wiki/Dynamical_system"/></productname>
 	    <title>Dynamical system. From Wikipedia, the free encyclopedia</title> </biblioentry>
@@ -46,21 +45,26 @@
 	    <productname><ulink url="https://drive.google.com/file/d/0B2bCxkhiEc_ZVjdZX0U4Tm0yeUU/edit?usp=sharing"/></productname>
 	    <title>Yuri Borisov. Simple IDE for Discrete Events Systems framework.</title> </biblioentry>
 
-
 	<biblioentry id="ref_fap_git"> <abbrev>FAP_GIT</abbrev>
 	    <productname><ulink url="http://gitorious.org/fap"/></productname>
 	    <title><xref linkend="gls_fap"/> project git repository</title> </biblioentry>
 
-
 	<biblioentry id="ref_fap_demo_snails"> <abbrev>FAP_DEMO_SNAILS</abbrev>
 	    <productname><ulink url="http://gitorious.org/fap/fap-snails"/></productname>
 	    <title><xref linkend="gls_fap"/> demo application "Snails" git repository</title> </biblioentry>
-    </bibliolist>
 
+	<biblioentry id="ref_jade_wiki"> <abbrev>JADE_WIKI</abbrev>
+            <productname><ulink url="http://en.wikipedia.org/wiki/Java_Agent_Development_Framework"/></productname>
+	    <title>Java Agent DEvelopment Framework, or JADE on Wiki</title> </biblioentry>
+    </bibliolist>
 
     <glossary> <title>Glossary</title> 
 	<glossentry id="gls_dtds"><glossterm>DTDS</glossterm> <acronym>DTDS</acronym>
 	    <glossdef> <para>Discrete Time Dynamic System </para> <glossseealso otherterm="gls_dtds1"/></glossdef> </glossentry>
+
+	<glossentry id="gls_jade"><glossterm>JADE</glossterm> <acronym>JADE</acronym>
+	    <glossdef> <simpara>Java Agent Development Framework
+		    Ref <xref linkend="ref_jade_wiki"/></simpara> </glossdef> </glossentry>
 
 	<glossentry id="gls_dtds1"><glossterm>Discrete Time Dynamic System</glossterm> <acronym>DTDS</acronym>
 	    <glossdef> <para>The some phenomenom "black box" model based on input - internal states - output. 
